@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Regnum - Guía de Mejoras Maestro con Carrito</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: #e0e0e0; margin: 0; padding: 20px; }
+        .layout { display: flex; gap: 20px; max-width: 1400px; margin: auto; align-items: flex-start; }
+        .main-container { flex: 2; }
+        .sidebar { flex: 1; background: #1e1e1e; border-radius: 10px; padding: 20px; border-left: 5px solid #4caf50; position: sticky; top: 20px; max-height: 90vh; overflow-y: auto; }
+        
+        .char-card { background: #1e1e1e; border-radius: 10px; padding: 20px; margin-bottom: 25px; }
+        .card-arcos { border-left: 5px solid #ff9800; }
+        .card-mago { border-left: 5px solid #ce93d8; }
+        .card-aleacion { border-left: 5px solid #90a4ae; }
+        .card-xymerald { border-left: 5px solid #ffeb3b; }
+        
+        .char-title { text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; margin-top: 0; }
+        .title-arcos { color: #ff9800; }
+        .title-mago { color: #ce93d8; }
+        .title-aleacion { color: #90a4ae; }
+        .title-xymerald { color: #ffeb3b; }
+        
+        .piece-container { background: #252525; margin-bottom: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #333; }
+        .piece-header { background: #2d2d2d; padding: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: #00bcd4; }
+        .piece-content { padding: 15px; display: none; background: #1a1a1a; }
+        .sub-accordion { margin: 8px 0; border: 1px solid #444; border-radius: 4px; overflow: hidden; }
+        .sub-header { background: #222; padding: 10px; cursor: pointer; font-size: 0.9em; color: #8bc34a; display: flex; justify-content: space-between; }
+        .sub-content { padding: 12px; display: none; background: #181818; font-size: 0.85em; color: #bbb; }
+        .section-title { color: #8bc34a; font-size: 0.85em; margin: 15px 0 8px 0; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; }
+        .mat-list { font-size: 0.9em; color: #ccc; list-style: none; padding: 0; margin: 0; }
+        .mat-list li { padding: 6px 0; border-bottom: 1px solid #282828; }
+        .active { display: block !important; }
+
+        .btn-add { background: #4caf50; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 15px; }
+        .btn-add:hover { background: #45a049; }
+
+        .cart-item { background: #2d2d2d; padding: 10px; border-radius: 5px; margin-bottom: 10px; font-size: 0.85em; display: flex; justify-content: space-between; align-items: center; border: 1px solid #444; }
+        .btn-remove { background: #f44336; border: none; color: white; cursor: pointer; border-radius: 3px; padding: 2px 8px; }
+        .summary-list { margin-top: 20px; border-top: 2px solid #444; padding-top: 10px; }
+        .summary-item { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #222; font-size: 0.9em; }
+        .summary-val { color: #ffeb3b; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+    <div class="main-container">
+
+        <div id="mejoras-arcos" class="char-card card-arcos">
+            <h2 class="char-title title-arcos">Mejoras de Arcos</h2>
+            <div class="piece-container">
+                <div class="piece-header" onclick="toggle(this)">Mejora de Madera Fina a Madera Endurecida (95%) <span>▼</span></div>
+                <div class="piece-content">
+                    <div class="section-title">Componentes:</div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">10 Tablón de madera Endurecida <span>▼</span></div>
+                        <div class="sub-content">
+                            • 100 x Mineral de Carbón (10 por Tablón)<br>
+                            • 100 x Tronco de nogal (10 por Tablón)
+                        </div>
+                    </div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
+                        <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
+                    </div>
+                    <div class="section-title">Total Materia Prima:</div>
+                    <ul class="mat-list">
+                        <li>100 x Mineral de Carbón</li>
+                        <li>100 x Troncos de Nogal</li>
+                        <li>50 x Esencias de enemigo</li>
+                        <li>155.000 x Oro</li>
+                        <li>5.000 WMC para 1 Ámbar</li>
+                    </ul>
+                    <button class="btn-add" onclick="addToCart('Mejora de Madera Fina a Madera Endurecida (95%)', { 'Mineral de Carbón': 100, 'Troncos de Nogal': 100, 'Esencias de enemigo': 50, 'Oro': 155000, 'WMC': 5000 })">+ Añadir a la Lista</button>
+                </div>
+            </div>
+
+            <div class="piece-container">
+                <div class="piece-header" onclick="toggle(this)">Mejora de Madera Endurecida a Madera Endurecida Fina (90%) <span>▼</span></div>
+                <div class="piece-content">
+                    <div class="section-title">Componentes:</div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">10 Tablón de madera Endurecida Fina <span>▼</span></div>
+                        <div class="sub-content">
+                            • 100 x Tronco de nogal (10 por Tablón)<br>
+                            • 20 Carbón (2 por Tablón) → 100 Tronco nogal + 200 Mineral de carbón (5 y 10 por Carbón)<br>
+                            • 10 Encantamiento menor → 100 Esencias de enemigo (10 por encantamiento menor)
+                        </div>
+                    </div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
+                        <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
+                    </div>
+                    <div class="section-title">Total Materia Prima:</div>
+                    <ul class="mat-list">
+                        <li>200 x Mineral de Carbón</li>
+                        <li>200 x Troncos de Nogal</li>
+                        <li>150 x Esencias de enemigo</li>
+                        <li>225.000 x Oro</li>
+                        <li>5.000 WMC de Crafting</li>
+                        <li>5.000 WMC para 1 Ámbar</li>
+                    </ul>
+                    <button class="btn-add" onclick="addToCart('Mejora de Madera Endurecida a Madera Endurecida Fina (90%)', { 'Mineral de Carbón': 200, 'Troncos de Nogal': 200, 'Esencias de enemigo': 150, 'Oro': 225000, 'WMC': 10000 })">+ Añadir a la Lista</button>
+                </div>
+            </div>
+
+            <div class="piece-container">
+                <div class="piece-header" onclick="toggle(this)">Mejora de Madera Endurecida Fina a Madera Reforzada (80%) <span>▼</span></div>
+                <div class="piece-content">
+                    <div class="section-title">Componentes:</div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">10 Tablón de madera Reforzada <span>▼</span></div>
+                        <div class="sub-content">
+                            • 10 x Resina (1 por Tablón) → 100 Savia de árbol (10 por Resina)<br>
+                            • 90 x Troncos de nogal (9 por Tablón)<br>
+                            • 20 Carbón (2 por Tablón) → 100 Tronco nogal + 200 Mineral de carbón (5 y 10 por Carbón)<br>
+                            • 10 Encantamiento (1 por Tablón) → 50 Huesos + 250 Esencias (5 y 25 por encantamiento)
+                        </div>
+                    </div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento <span>▼</span></div>
+                        <div class="sub-content">
+                            • 25 x Huesos de enemigo (5 por encantamiento)<br>
+                            • 125 x Esencias de enemigo (25 por encantamiento)
+                        </div>
+                    </div>
+                    <div class="section-title">Total Materia Prima:</div>
+                    <ul class="mat-list">
+                        <li>200 x Mineral de Carbón</li>
+                        <li>190 x Troncos de Nogal</li>
+                        <li>375 x Esencias de enemigo</li>
+                        <li>75 x Huesos de enemigo</li>
+                        <li>100 x Savia de árbol</li>
+                        <li>57.750 WMC de Crafting</li>
+                        <li>10.000 de WMC para 2 Ámbar</li>
+                    </ul>
+                    <button class="btn-add" onclick="addToCart('Mejora de Madera Endurecida Fina a Madera Reforzada (80%)', { 'Mineral de Carbón': 200, 'Troncos de Nogal': 190, 'Esencias de enemigo': 375, 'Huesos de enemigo': 75, 'Savia de árbol': 100, 'WMC': 67750 })">+ Añadir a la Lista</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mejoras-mago" class="char-card card-mago">
+            <h2 class="char-title title-mago">Mejoras de Mago</h2>
+            <div class="piece-container">
+                <div class="piece-header" onclick="toggle(this)">Mejora de Tela a Tela Fina (95%) <span>▼</span></div>
+                <div class="piece-content">
+                    <div class="section-title">Componentes:</div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">10 Tela fina algodón <span>▼</span></div>
+                        <div class="sub-content">
+                            • 100 x Liber de Lino (10 por Tela)<br>
+                            • 100 x Cápsulas de algodón (10 por Tela)
+                        </div>
+                    </div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
+                        <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
+                    </div>
+                    <div class="section-title">Total Materia Prima:</div>
+                    <ul class="mat-list">
+                        <li>100 x Liber de Lino</li>
+                        <li>100 x Cápsulas de algodón</li>
+                        <li>50 x Esencias de enemigo</li>
+                        <li>155.000 x Oro</li>
+                        <li>5.000 WMC para 1 Ámbar</li>
+                    </ul>
+                    <button class="btn-add" onclick="addToCart('Mejora de Tela a Tela Fina (95%)', { 'Liber de Lino': 100, 'Cápsulas de algodón': 100, 'Esencias de enemigo': 50, 'Oro': 155000, 'WMC': 5000 })">+ Añadir a la Lista</button>
+                </div>
+            </div>
+
+            <div class="piece-container">
+                <div class="piece-header" onclick="toggle(this)">Mejora de Tela Fina a Tejido Etéreo (90%) <span>▼</span></div>
+                <div class="piece-content">
+                    <div class="section-title">Componentes:</div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">10 Tela de tejido etéreo <span>▼</span></div>
+                        <div class="sub-content">
+                            • 100 x Cápsulas de algodón (10 por Tela)<br>
+                            • 20 Jabón de Savia de árbol (2 por Tela) → 300 x Savia de árbol (15 por Jabón)<br>
+                            • 10 Encantamiento menor (1 por Tela) → 100 x Esencias de enemigo (10 por encantamiento menor)
+                        </div>
+                    </div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
+                        <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
+                    </div>
+                    <div class="section-title">Total Materia Prima:</div>
+                    <ul class="mat-list">
+                        <li>100 x Cápsulas de algodón</li>
+                        <li>300 x Savia de árbol</li>
+                        <li>150 x Esencias de enemigo</li>
+                        <li>225.000 x Oro</li>
+                        <li>5.000 WMC de Crafting</li>
+                        <li>5.000 WMC para 1 Ámbar</li>
+                    </ul>
+                    <button class="btn-add" onclick="addToCart('Mejora de Tela Fina a Tejido Etéreo (90%)', { 'Cápsulas de algodón': 100, 'Savia de árbol': 300, 'Esencias de enemigo': 150, 'Oro': 225000, 'WMC': 10000 })">+ Añadir a la Lista</button>
+                </div>
+            </div>
+
+            <div class="piece-container">
+                <div class="piece-header" onclick="toggle(this)">Mejora de Tejido Etéreo a Seda Real (80%) <span>▼</span></div>
+                <div class="piece-content">
+                    <div class="section-title">Componentes:</div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">10 Tela de seda real <span>▼</span></div>
+                        <div class="sub-content">
+                            • 100 x Capullo de seda (10 por Tela)<br>
+                            • 20 Jabón de Savia de árbol (2 por Tela) → 300 x Savia de árbol (15 por Jabón)<br>
+                            • 10 Encantamiento (1 por Tela) → 50 Huesos + 250 Esencias (5 y 25 por encantamiento)
+                        </div>
+                    </div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento <span>▼</span></div>
+                        <div class="sub-content">
+                            • 25 x Huesos de enemigo (5 por encantamiento)<br>
+                            • 125 x Esencias de enemigo (25 por encantamiento)
+                        </div>
+                    </div>
+                    <div class="section-title">Total Materia Prima:</div>
+                    <ul class="mat-list">
+                        <li>100 x Capullo de seda</li>
+                        <li>300 x Savia de árbol</li>
+                        <li>375 x Esencias de enemigo</li>
+                        <li>75 x Huesos de enemigo</li>
+                        <li>51.750 WMC de Crafting</li>
+                        <li>10.000 WMC para 2 Ámbar</li>
+                    </ul>
+                    <button class="btn-add" onclick="addToCart('Mejora de Tejido Etéreo a Seda Real (80%)', { 'Capullo de seda': 100, 'Savia de árbol': 300, 'Esencias de enemigo': 375, 'Huesos de enemigo': 75, 'WMC': 61750 })">+ Añadir a la Lista</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mejoras-aleacion" class="char-card card-aleacion">
+            <h2 class="char-title title-aleacion">Mejoras de Aleación</h2>
+            <div class="piece-container">
+                <div class="piece-header" onclick="toggle(this)">Mejora de Hierro a Acero (95%) <span>▼</span></div>
+                <div class="piece-content">
+                    <div class="section-title">Componentes:</div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">10 Lingote de acero <span>▼</span></div>
+                        <div class="sub-content">
+                            • 100 x Mineral de Carbón (10 por Lingote)<br>
+                            • 100 x Mineral de Hierro (10 por Lingote)
+                        </div>
+                    </div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
+                        <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
+                    </div>
+                    <div class="section-title">Total Materia Prima:</div>
+                    <ul class="mat-list">
+                        <li>100 x Mineral de Carbón</li>
+                        <li>100 x Mineral de Hierro</li>
+                        <li>50 x Esencias de enemigo</li>
+                        <li>175.000 x Oro</li>
+                        <li>5.000 WMC de 1 Ámbar</li>
+                    </ul>
+                    <button class="btn-add" onclick="addToCart('Mejora de Hierro a Acero (95%)', { 'Mineral de Carbón': 100, 'Mineral de Hierro': 100, 'Esencias de enemigo': 50, 'Oro': 175000, 'WMC': 5000 })">+ Añadir a la Lista</button>
+                </div>
+            </div>
+
+            <div class="piece-container">
+                <div class="piece-header" onclick="toggle(this)">Mejora de Acero a Acero Fino (90%) <span>▼</span></div>
+                <div class="piece-content">
+                    <div class="section-title">Componentes:</div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">10 Lingote de Acero Fino <span>▼</span></div>
+                        <div class="sub-content">
+                            • 100 x Mineral de Hierro (10 por Lingote)<br>
+                            • 100 x Tronco nogal + 200 Mineral de carbón<br>
+                            • 10 Encantamiento menor → 100 Esencias de enemigo (10 por encantamiento menor)
+                        </div>
+                    </div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
+                        <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
+                    </div>
+                    <div class="section-title">Total Materia Prima:</div>
+                    <ul class="mat-list">
+                        <li>200 x Mineral de Carbón</li>
+                        <li>100 x Mineral de Hierro</li>
+                        <li>100 x Troncos de Nogal</li>
+                        <li>150 x Esencias de enemigo</li>
+                        <li>225.000 x Oro</li>
+                        <li>5.000 WMC de Crafting</li>
+                        <li>5.000 WMC para 1 Ámbar</li>
+                    </ul>
+                    <button class="btn-add" onclick="addToCart('Mejora de Acero a Acero Fino (90%)', { 'Mineral de Carbón': 200, 'Mineral de Hierro': 100, 'Troncos de Nogal': 100, 'Esencias de enemigo': 150, 'Oro': 225000, 'WMC': 10000 })">+ Añadir a la Lista</button>
+                </div>
+            </div>
+
+            <div class="piece-container">
+                <div class="piece-header" onclick="toggle(this)">Mejora de Acero Fino a Aleación de Acero (80%) <span>▼</span></div>
+                <div class="piece-content">
+                    <div class="section-title">Componentes:</div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">10 Lingote de Aleación de Acero <span>▼</span></div>
+                        <div class="sub-content">
+                            • 10 x Lingote de titanio → 100 Mineral titanio (10 por Lingote)<br>
+                            • 90 x Mineral de Hierro (9 por Lingote)<br>
+                            • 20 Carbón → 100 Tronco nogal + 200 Mineral de carbón<br>
+                            • 10 Encantamiento → 50 Huesos + 250 Esencias
+                        </div>
+                    </div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento <span>▼</span></div>
+                        <div class="sub-content">
+                            • 25 x Huesos de enemigo (5 por encantamiento)<br>
+                            • 125 x Esencias de enemigo (25 por encantamiento)
+                        </div>
+                    </div>
+                    <div class="section-title">Total Materia Prima:</div>
+                    <ul class="mat-list">
+                        <li>200 x Mineral de Carbón</li>
+                        <li>100 x Troncos de Nogal</li>
+                        <li>90 x Mineral de Hierro</li>
+                        <li>100 x Mineral de Titanio</li>
+                        <li>375 x Esencias de enemigo</li>
+                        <li>75 x Huesos de enemigo</li>
+                        <li>57.750 WMC de Crafting</li>
+                        <li>10.000 de WMC para 2 Ámbar</li>
+                    </ul>
+                    <button class="btn-add" onclick="addToCart('Mejora de Acero Fino a Aleación de Acero (80%)', { 'Mineral de Carbón': 200, 'Troncos de Nogal': 100, 'Mineral de Hierro': 90, 'Mineral de Titanio': 100, 'Esencias de enemigo': 375, 'Huesos de enemigo': 75, 'WMC': 67750 })">+ Añadir a la Lista</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mejoras-xymerald" class="char-card card-xymerald">
+            <h2 class="char-title title-xymerald">Xymerald</h2>
+            <div class="piece-container">
+                <div class="piece-header" onclick="toggle(this)">Mejora a Xymerald <span>▼</span></div>
+                <div class="piece-content">
+                    <div class="section-title">Componentes:</div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">10 Xymerald <span>▼</span></div>
+                        <div class="sub-content">
+                            • 100 x Mineral de Xymerald (10 por Xymerald)<br>
+                            • 20 x Encantamiento → 100 Huesos + 500 Esencias
+                        </div>
+                    </div>
+                    <div class="sub-accordion">
+                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento <span>▼</span></div>
+                        <div class="sub-content">
+                            • 25 x Huesos de enemigo (5 por encantamiento)<br>
+                            • 125 x Esencias de enemigo (25 por encantamiento)
+                        </div>
+                    </div>
+                    <div class="section-title">Total Materia Prima:</div>
+                    <ul class="mat-list">
+                        <li>100 x Mineral de Xymerald</li>
+                        <li>125 x Huesos de enemigo</li>
+                        <li>625 x Esencias de enemigo</li>
+                        <li>56.250 x WMC</li>
+                        <li>20.000 x WMC para 1 Ámbar superior</li>
+                    </ul>
+                    <button class="btn-add" onclick="addToCart('Mejora a Xymerald (80%)', { 'Mineral de Xymerald': 100, 'Huesos de enemigo': 125, 'Esencias de enemigo': 625, 'WMC': 76250 })">+ Añadir a la Lista</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="sidebar">
+        <h2 class="char-title" style="color: #4caf50;">Lista de Materiales</h2>
+        <div id="cart-items">
+            <p style="color: #666; font-size: 0.9em;">No has añadido ninguna mejora.</p>
+        </div>
+        <div class="summary-list" id="cart-summary"></div>
+    </div>
+</div>
+
+<script>
+    let cart = [];
+
+    function toggle(element) {
+        const content = element.nextElementSibling;
+        content.classList.toggle('active');
+        const span = element.querySelector('span');
+        if (span) span.innerText = content.classList.contains('active') ? '▲' : '▼';
+    }
+
+    function addToCart(name, materials) {
+        cart.push({ name, materials });
+        updateCartUI();
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCartUI();
+    }
+
+    function updateCartUI() {
+        const cartDiv = document.getElementById('cart-items');
+        const summaryDiv = document.getElementById('cart-summary');
+        
+        if (cart.length === 0) {
+            cartDiv.innerHTML = '<p style="color: #666; font-size: 0.9em;">No has añadido ninguna mejora.</p>';
+            summaryDiv.innerHTML = '';
+            return;
+        }
+
+        cartDiv.innerHTML = cart.map((item, index) => `
+            <div class="cart-item">
+                <span>${item.name}</span>
+                <button class="btn-remove" onclick="removeFromCart(${index})">Eliminar</button>
+            </div>
+        `).join('');
+
+        let totals = {};
+        cart.forEach(item => {
+            for (let mat in item.materials) {
+                totals[mat] = (totals[mat] || 0) + item.materials[mat];
+            }
+        });
+
+        let summaryHTML = '<div class="section-title">Materiales Totales Necesarios:</div>';
+        for (let mat in totals) {
+            let value = totals[mat];
+            let displayVal = (mat === 'Oro' || mat === 'WMC') ? value.toLocaleString() : value;
+            summaryHTML += `
+                <div class="summary-item">
+                    <span>${mat}</span>
+                    <span class="summary-val">${displayVal}</span>
+                </div>`;
+        }
+        summaryDiv.innerHTML = summaryHTML;
+    }
+</script>
+
+</body>
+</html>
