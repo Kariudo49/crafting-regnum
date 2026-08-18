@@ -21,8 +21,15 @@
         .bz-day-title { color: #00ff00; font-weight: 700; font-size: 1.1em; margin-bottom: 15px; letter-spacing: 1px;}
         .bz-time-slot { color: #e0e0e0; font-size: 0.95em; margin-bottom: 8px; font-weight: 500; }
 
-
-        /* === SISTEMA DE PANTALLAS (NAVEGACIÓN) === */
+	.bz-countdown-container { text-align: center; margin: 20px auto 40px auto; max-width: 400px; background: #131820; border: 1px solid #ff9800; border-radius: 8px; padding: 20px; box-shadow: 0 4px 12px rgba(255,152,0,0.15); transition: 0.3s; }
+        .bz-countdown-title { color: #ff9800; font-size: 1.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; letter-spacing: 1px; }
+        .bz-countdown-timer { color: #e6edf3; font-size: 2.8em; font-family: 'Inter', monospace; font-weight: 700; letter-spacing: 2px;}
+        
+        /* Clase especial para cuando la BZ está abierta */
+        .bz-countdown-open { border-color: #4caf50; box-shadow: 0 4px 12px rgba(76,175,80,0.2); }
+        .bz-countdown-open .bz-countdown-title { color: #4caf50; }
+       
+	 /* === SISTEMA DE PANTALLAS (NAVEGACIÓN) === */
         .screen { display: none; }
         .screen.active { display: block; }
         
@@ -1730,7 +1737,7 @@
                 Volver a Battlezone
             </button>
             <h1 class="main-title" style="color: #d32f2f; font-size: 2.5em; margin-top: 20px; text-align: center;">Horarios de Battlezone</h1>
-            <p class="home-subtitle" style="margin-top: 10px; text-align: center;">La tabla marca el horario de tu hora local.</p>
+            <p class="home-subtitle" style="margin-top: 10px; text-align: center;">La tabla se ajusta automáticamente a tu zona horaria local.</p>
             
             <div style="margin-top: 40px;">
                 <!-- Relojes en vivo -->
@@ -1745,6 +1752,12 @@
                     </div>
                 </div>
 
+                <!-- Contador de próxima BZ -->
+                <div class="bz-countdown-container" id="bz-countdown-box">
+                    <div class="bz-countdown-title" id="bz-countdown-title">Calculando...</div>
+                    <div class="bz-countdown-timer" id="bz-countdown-timer">--:--:--</div>
+                </div>
+
                 <!-- Calendario dinámico -->
                 <div class="bz-calendar" id="bz-calendar-container">
                     <!-- Javascript inyectará los días aquí -->
@@ -1752,7 +1765,8 @@
             </div>
         </div>
     </div>
-    <!-- ================= PANTALLA 53: SUB-MENÚ BATTLEZONE CONFIGURACIONES ================= -->
+
+<!-- ================= PANTALLA 53: SUB-MENÚ BATTLEZONE CONFIGURACIONES ================= -->
     <div id="bz-config-menu-screen" class="screen">
         <div class="home-container">
             <button class="btn-back" onclick="changeScreen('battlezone-menu-screen')">
@@ -1961,13 +1975,13 @@
     
     // Horario oficial del Servidor (GMT / UTC 0)
     const bzServerSchedule = [
-        { day: 0, periods: [[13,16], [18,21]] }, // Domingo (Sun)
-        { day: 1, periods: [[3,6], [13,16], [20,23]] },  // Lunes (Mon)
-        { day: 2, periods: [[13,16], [18,21]] },         // Martes (Tue)
-        { day: 3, periods: [[13,16], [20,23]] },         // Miércoles (Wed)
-        { day: 4, periods: [[3,6], [13,16], [18,21]] },  // Jueves (Thu)
-        { day: 5, periods: [[13,17], [20,23]] },         // Viernes (Fri)
-        { day: 6, periods: [[3,6], [13,16], [20,23]] }   // Sábado (Sat)
+        { day: 0, periods: [[13,16], [18,21]] }, // Domingo
+        { day: 1, periods: [[3,6], [13,16], [20,23]] },  // Lunes
+        { day: 2, periods: [[13,16], [18,21]] },         // Martes
+        { day: 3, periods: [[13,16], [20,23]] },         // Miércoles
+        { day: 4, periods: [[3,6], [13,16], [18,21]] },  // Jueves
+        { day: 5, periods: [[13,17], [20,23]] },         // Viernes
+        { day: 6, periods: [[3,6], [13,16], [20,23]] }   // Sábado
     ];
 
     const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
@@ -1977,22 +1991,19 @@
 
         bzServerSchedule.forEach(dayData => {
             dayData.periods.forEach(period => {
-                // Usamos una semana de referencia en 1970 (donde el 4 de enero fue Domingo) para usar las matemáticas internas de JS
                 let startUTC = new Date(Date.UTC(1970, 0, 4 + dayData.day, period[0], 0));
                 let endUTC = new Date(Date.UTC(1970, 0, 4 + dayData.day, period[1], 0));
 
-                let localDay = startUTC.getDay(); // Día local convertido
-                let localStart = startUTC.getHours(); // Hora local inicio
-                let localEnd = endUTC.getHours();     // Hora local fin
+                let localDay = startUTC.getDay(); 
+                let localStart = startUTC.getHours(); 
+                let localEnd = endUTC.getHours();     
                 
-                // Si termina exactamente a la medianoche (00:00), visualmente mostramos 24 para que se entienda el rango
                 if(localEnd === 0 && period[1] !== 0) localEnd = 24;
 
                 localSchedule[localDay].push(`${localStart}-${localEnd}h`);
             });
         });
 
-        // Dibujar el calendario en el HTML
         const container = document.getElementById('bz-calendar-container');
         if (container) {
             let html = '';
@@ -2008,12 +2019,11 @@
         }
     }
 
-    // Función para actualizar la hora de los relojes cada segundo
-    function updateClocks() {
+    function updateClocksAndCountdown() {
         const now = new Date();
-        // Hora del servidor forzando la zona UTC
+        
+        // 1. Actualizar relojes
         const serverTime = now.toLocaleTimeString('es-AR', { timeZone: 'UTC', hour12: false, hour: '2-digit', minute:'2-digit' });
-        // Hora local de la PC del usuario
         const localTime = now.toLocaleTimeString('es-AR', { hour12: false, hour: '2-digit', minute:'2-digit' });
 
         const serverEl = document.getElementById('clock-server');
@@ -2021,12 +2031,79 @@
 
         if(serverEl) serverEl.innerText = serverTime + 'h';
         if(localEl) localEl.innerText = localTime + 'h';
+
+        // 2. Lógica del Contador
+        let upcomingBZs = [];
+        
+        // Calculamos las fechas reales de todos los turnos en los próximos 7 días
+        for (let offset = 0; offset < 8; offset++) {
+            let targetDate = new Date(now);
+            targetDate.setUTCDate(now.getUTCDate() + offset);
+            let dayOfWeek = targetDate.getUTCDay();
+            
+            let daySchedule = bzServerSchedule.find(d => d.day === dayOfWeek);
+            if (daySchedule) {
+                daySchedule.periods.forEach(p => {
+                    let start = new Date(targetDate);
+                    start.setUTCHours(p[0], 0, 0, 0);
+                    
+                    let end = new Date(targetDate);
+                    end.setUTCHours(p[1], 0, 0, 0);
+                    
+                    upcomingBZs.push({ start: start, end: end });
+                });
+            }
+        }
+        
+        // Ordenamos del más próximo al más lejano
+        upcomingBZs.sort((a, b) => a.start - b.start);
+        
+        let state = "WAITING";
+        let targetTime = null;
+        
+        for (let bz of upcomingBZs) {
+            if (now >= bz.start && now < bz.end) {
+                state = "OPEN";
+                targetTime = bz.end; // Cuenta regresiva para cerrar
+                break;
+            } else if (now < bz.start) {
+                state = "WAITING";
+                targetTime = bz.start; // Cuenta regresiva para abrir
+                break;
+            }
+        }
+        
+        // Renderizar el contador
+        if (targetTime) {
+            let diff = targetTime - now;
+            let hours = Math.floor(diff / (1000 * 60 * 60));
+            let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            let hh = hours.toString().padStart(2, '0');
+            let mm = minutes.toString().padStart(2, '0');
+            let ss = seconds.toString().padStart(2, '0');
+            
+            const boxEl = document.getElementById('bz-countdown-box');
+            const titleEl = document.getElementById('bz-countdown-title');
+            const timerEl = document.getElementById('bz-countdown-timer');
+            
+            if(timerEl) timerEl.innerText = `${hh}:${mm}:${ss}`;
+            
+            if (state === "OPEN") {
+                if(boxEl) boxEl.classList.add('bz-countdown-open');
+                if(titleEl) titleEl.innerText = "¡Battlezone Abierta! Termina en:";
+            } else {
+                if(boxEl) boxEl.classList.remove('bz-countdown-open');
+                if(titleEl) titleEl.innerText = "Próxima Battlezone en:";
+            }
+        }
     }
 
     // Inicializar todo
     renderBZCalendar();
-    setInterval(updateClocks, 1000);
-
+    updateClocksAndCountdown(); // Llamada inmediata para que no haya delay
+    setInterval(updateClocksAndCountdown, 1000); // Se actualiza cada 1 segundo
 </script>
 
 </body>
