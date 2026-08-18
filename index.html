@@ -2,384 +2,1172 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Regnum - Guía de Crafting</title>
+    <title>Regnum - Chona</title>
+    <!-- Importamos fuente para el título principal -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: #e0e0e0; margin: 0; padding: 20px; }
+        /* === ESTILOS GLOBALES === */
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0b0f15; color: #e0e0e0; margin: 0; padding: 20px; }
+        
+        /* === SISTEMA DE PANTALLAS (NAVEGACIÓN) === */
+        .screen { display: none; }
+        .screen.active { display: block; }
+        
+        /* ====================================================
+           DISEÑO DEL MENÚ PRINCIPAL (HOME)
+           ==================================================== */
+        .home-container { max-width: 1000px; margin: 40px auto; padding-bottom: 50px; }
+        
+        /* Header y Títulos */
+        .hero-section { text-align: center; margin-bottom: 50px; }
+        .over-title { color: #5a6475; font-size: 0.7em; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; margin-bottom: 10px; }
+        .main-title { font-family: 'Cinzel', serif; font-size: 2.8em; color: #e5b75a; margin: 0; letter-spacing: 2px; font-weight: 700; }
+        .main-title .dot { color: #e5b75a; margin: 0 5px; }
+        .realm-dots { margin: 15px 0; font-size: 0.7em; }
+        .realm-dots span { margin: 0 2px; }
+        .dot-syrtis { color: #8bc34a; }
+        .dot-alsius { color: #4fc3f7; }
+        .dot-ignis { color: #f44336; }
+        .sub-title { color: #8b949e; font-size: 0.9em; margin-bottom: 30px; }
+
+        /* Secciones y Líneas Divisorias */
+        .category-section { margin-bottom: 40px; }
+        .category-header { display: flex; align-items: center; margin-bottom: 20px; font-size: 0.75em; color: #8b949e; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; }
+        .category-header .count { margin-left: 8px; color: #5a6475; }
+        .category-header .line { flex-grow: 1; height: 1px; background: #222935; margin-left: 15px; }
+
+        /* Grid de Tarjetas Nav */
+        .nav-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .nav-card { background: #131820; border: 1px solid #222935; border-radius: 8px; padding: 18px; display: flex; align-items: flex-start; gap: 15px; cursor: pointer; transition: all 0.2s ease; }
+        .nav-card:hover { background: #1a212b; border-color: #3b4352; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .nav-icon-box { background: rgba(255,255,255,0.03); width: 36px; height: 36px; border-radius: 8px; display: flex; justify-content: center; align-items: center; color: #8b949e; flex-shrink: 0; }
+        .nav-card:hover .nav-icon-box { color: #e0e0e0; background: rgba(255,255,255,0.06); }
+        .nav-text h3 { margin: 0 0 5px 0; font-size: 0.95em; font-weight: 600; color: #e6edf3; }
+        .nav-text p { margin: 0; font-size: 0.8em; color: #7a8393; line-height: 1.4; }
+
+        /* Colores de Tarjetas */
+        .border-crafting { border-top-color: #4caf50; }
+        .border-mapa { border-top-color: #8bc34a; }
+        .border-warmaster { border-top-color: #3365a3; }
+        .border-champions { border-top-color: #ff9800; }
+        .border-epicos { border-top-color: #9c27b0; }
+        .border-audr { border-top-color: #000000; box-shadow: 0 0 5px rgba(255,255,255,0.1); }
+        .border-tickets { border-top-color: #ffffff; }
+        .border-mercenario { border-top-color: #e65100; }
+        .border-mgs { border-top-color: #8bc34a; }
+        .border-caja { border-top-color: #fdd835; }
+        .border-carbon { border-top-color: #212121; }
+        .border-dragon { border-top-color: #4fc3f7; }
+        .border-legendarios { border-top-color: #ffcc80; }
+        .border-merca { border-top-color: #795548; }
+        .border-pociones { border-top-color: #e91e63; }
+        .border-disabled { border-top-color: #555; cursor: default; opacity: 0.6; }
+        .border-disabled:hover { transform: none; box-shadow: none; background: #1e1e1e; }
+
+        /* Botón volver genérico */
+        .btn-back { background: #131820; border: 1px solid #222935; color: #c9d1d9; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 500; margin-bottom: 20px; transition: 0.2s; font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-back:hover { background: #1e242d; border-color: #3b4352; }
+
+        /* ====================================================
+           ESTILOS ORIGINALES DE PANTALLAS (CRAFTING / WM)
+           ==================================================== */
         .layout { display: flex; gap: 20px; max-width: 1400px; margin: auto; align-items: flex-start; }
         .main-container { flex: 2; }
-        .sidebar { flex: 1; background: #1e1e1e; border-radius: 10px; padding: 20px; border-left: 5px solid #4caf50; position: sticky; top: 20px; max-height: 90vh; overflow-y: auto; }
+        .sidebar { flex: 1; background: #131820; border-radius: 8px; padding: 20px; border: 1px solid #222935; border-top: 4px solid #4caf50; position: sticky; top: 20px; max-height: 90vh; overflow-y: auto; }
         
-        .char-card { background: #1e1e1e; border-radius: 10px; padding: 20px; margin-bottom: 25px; }
-        .card-arcos { border-left: 5px solid #634F39; }
-        .card-mago { border-left: 5px solid #ce93d8; }
-        .card-aleacion { border-left: 5px solid #90a4ae; }
-        .card-xymerald { border-left: 5px solid #4ABDAA; }
+        .char-card { background: #131820; border-radius: 8px; padding: 20px; margin-bottom: 25px; border: 1px solid #222935; }
+        .card-arcos { border-left: 4px solid #634F39; }
+        .card-mago { border-left: 4px solid #ce93d8; }
+        .card-aleacion { border-left: 4px solid #90a4ae; }
+        .card-xymerald { border-left: 4px solid #4ABDAA; }
+        .card-syrtis { border-left: 4px solid #8bc34a; }
+        .card-alsius { border-left: 4px solid #4fc3f7; }
+        .card-ignis { border-left: 4px solid #f44336; }
         
-        .char-title { text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; margin-top: 0; }
-        .title-arcos { color: #634F39; }
+        .char-title { text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid #222935; padding-bottom: 10px; margin-top: 0; font-size: 1.2em; font-weight: 600; }
+        .title-arcos { color: #e6ccb2; }
         .title-mago { color: #ce93d8; }
-        .title-aleacion { color: #90a4ae; }
-        .title-xymerald { color: #4ABDAA; }
+        .title-aleacion { color: #b0bec5; }
+        .title-xymerald { color: #80cbc4; }
         
-        .piece-container { background: #252525; margin-bottom: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #333; }
-        .piece-header { background: #2d2d2d; padding: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; color: #00bcd4; }
-        .piece-content { padding: 15px; display: none; background: #1a1a1a; }
-        .sub-accordion { margin: 8px 0; border: 1px solid #444; border-radius: 4px; overflow: hidden; }
-        .sub-header { background: #222; padding: 10px; cursor: pointer; font-size: 0.9em; color: #8bc34a; display: flex; justify-content: space-between; }
-        .sub-content { padding: 12px; display: none; background: #181818; font-size: 0.85em; color: #bbb; }
-        .section-title { color: #8bc34a; font-size: 0.85em; margin: 15px 0 8px 0; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; }
-        .mat-list { font-size: 0.9em; color: #ccc; list-style: none; padding: 0; margin: 0; }
-        .mat-list li { padding: 6px 0; border-bottom: 1px solid #282828; }
-        .active { display: block !important; }
+        .piece-container { background: #1c212a; margin-bottom: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #2a313e; }
+        .piece-header { background: #222833; padding: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #4fc3f7; font-size: 0.9em; }
+        .piece-content { padding: 15px; display: none; background: #161b22; }
+        .sub-accordion { margin: 8px 0; border: 1px solid #2a313e; border-radius: 4px; overflow: hidden; }
+        .sub-header { background: #1c212a; padding: 10px; cursor: pointer; font-size: 0.85em; color: #8bc34a; display: flex; justify-content: space-between; }
+        .sub-content { padding: 12px; display: none; background: #131820; font-size: 0.85em; color: #8b949e; line-height: 1.5; }
+        .section-title { color: #8bc34a; font-size: 0.8em; margin: 15px 0 8px 0; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
+        .mat-list { font-size: 0.85em; color: #c9d1d9; list-style: none; padding: 0; margin: 0; }
+        .mat-list li { padding: 6px 0; border-bottom: 1px solid #222935; }
+        .active-acc { display: block !important; }
 
-        .btn-add { background: #4caf50; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 15px; }
-        .btn-add:hover { background: #45a049; }
+        .btn-add { background: #238636; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 500; width: 100%; margin-top: 15px; font-family: 'Inter', sans-serif; transition: 0.2s; }
+        .btn-add:hover { background: #2ea043; }
 
-        .cart-item { background: #2d2d2d; padding: 10px; border-radius: 5px; margin-bottom: 10px; font-size: 0.85em; display: flex; justify-content: space-between; align-items: center; border: 1px solid #444; }
-        .btn-remove { background: #f44336; border: none; color: white; cursor: pointer; border-radius: 3px; padding: 2px 8px; }
-        .summary-list { margin-top: 20px; border-top: 2px solid #444; padding-top: 10px; }
-        .summary-item { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #222; font-size: 0.9em; }
-        .summary-val { color: #ffeb3b; font-weight: bold; }
+        .cart-item { background: #1c212a; padding: 10px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85em; display: flex; justify-content: space-between; align-items: center; border: 1px solid #2a313e; color: #e6edf3;}
+        .btn-remove { background: #da3633; border: none; color: white; cursor: pointer; border-radius: 4px; padding: 3px 8px; font-size: 0.9em; }
+        .summary-list { margin-top: 20px; border-top: 1px solid #2a313e; padding-top: 10px; }
+        .summary-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #222935; font-size: 0.85em; color: #c9d1d9;}
+        .summary-val { color: #e5b75a; font-weight: 600; }
+
+        /* === MODAL DE IMAGEN === */
+        .img-clickable { cursor: pointer; transition: transform 0.2s; }
+        .img-clickable:hover { transform: scale(1.02); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); }
+        
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); justify-content: center; align-items: center; }
+        .modal-content { max-width: 90%; max-height: 90%; border-radius: 8px; border: 1px solid #30363d; animation: zoom 0.2s ease; }
+        @keyframes zoom { from {transform: scale(0.95); opacity:0;} to {transform: scale(1); opacity:1;} }
+        .close-modal { position: absolute; top: 20px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .close-modal:hover { color: #bbb; }
+        
+        /* === LISTAS WARMASTER === */
+        .wm-item-list { list-style: none; padding: 0; margin: 0; color: #c9d1d9; font-size: 0.85em; }
+        .wm-item-list li { padding: 12px 15px; border-bottom: 1px solid #222935; line-height: 1.6; }
+        .wm-item-list li:last-child { border-bottom: none; }
     </style>
 </head>
 <body>
 
-<div class="layout">
-    <div class="main-container">
-
-        <div id="mejoras-arcos" class="char-card card-arcos">
-            <h2 class="char-title title-arcos">Mejoras de Arcos</h2>
-            <div class="piece-container">
-                <div class="piece-header" onclick="toggle(this)">Mejora de Madera Fina a Madera Endurecida (95%) <span>▼</span></div>
-                <div class="piece-content">
-                    <div class="section-title">Componentes:</div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">10 Tablón de madera Endurecida <span>▼</span></div>
-                        <div class="sub-content">
-                            • 100 x Mineral de Carbón (10 por Tablón)<br>
-                            • 100 x Tronco de nogal (10 por Tablón)
-                        </div>
-                    </div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
-                        <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
-                    </div>
-                    <div class="section-title">Total Materia Prima:</div>
-                    <ul class="mat-list">
-                        <li>100 x Mineral de Carbón</li>
-                        <li>100 x Troncos de Nogal</li>
-                        <li>50 x Esencias de enemigo</li>
-                        <li>155.000 x Oro</li>
-                        <li>5.000 WMC para 1 Ámbar</li>
-                    </ul>
-                    <button class="btn-add" onclick="addToCart('Mejora de Madera Fina a Madera Endurecida (95%)', { 'Mineral de Carbón': 100, 'Troncos de Nogal': 100, 'Esencias de enemigo': 50, 'Oro': 155000, 'WMC': 5000 })">+ Añadir a la Lista</button>
-                </div>
+    <!-- ================= PANTALLA DE INICIO (NUEVO DISEÑO DASHBOARD) ================= -->
+    <div id="home-screen" class="screen active">
+        
+        <div class="hero-section">
+            <div class="over-title">Champions of Regnum</div>
+            <h1 class="main-title">REGNUM <span class="dot">·</span> CHONA</h1>
+            <div class="realm-dots">
+                <span class="dot-syrtis">◆</span>
+                <span class="dot-alsius">◆</span>
+                <span class="dot-ignis">◆</span>
             </div>
-
-            <div class="piece-container">
-                <div class="piece-header" onclick="toggle(this)">Mejora de Madera Endurecida a Madera Endurecida Fina (90%) <span>▼</span></div>
-                <div class="piece-content">
-                    <div class="section-title">Componentes:</div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">10 Tablón de madera Endurecida Fina <span>▼</span></div>
-                        <div class="sub-content">
-                            • 100 x Tronco de nogal (10 por Tablón)<br>
-                            • 20 Carbón (2 por Tablón) → 100 Tronco nogal + 200 Mineral de carbón (5 y 10 por Carbón)<br>
-                            • 10 Encantamiento menor → 100 Esencias de enemigo (10 por encantamiento menor)
-                        </div>
-                    </div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
-                        <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
-                    </div>
-                    <div class="section-title">Total Materia Prima:</div>
-                    <ul class="mat-list">
-                        <li>200 x Mineral de Carbón</li>
-                        <li>200 x Troncos de Nogal</li>
-                        <li>150 x Esencias de enemigo</li>
-                        <li>225.000 x Oro</li>
-                        <li>5.000 WMC de Crafting</li>
-                        <li>5.000 WMC para 1 Ámbar</li>
-                    </ul>
-                    <button class="btn-add" onclick="addToCart('Mejora de Madera Endurecida a Madera Endurecida Fina (90%)', { 'Mineral de Carbón': 200, 'Troncos de Nogal': 200, 'Esencias de enemigo': 150, 'Oro': 225000, 'WMC': 10000 })">+ Añadir a la Lista</button>
-                </div>
-            </div>
-
-            <div class="piece-container">
-                <div class="piece-header" onclick="toggle(this)">Mejora de Madera Endurecida Fina a Madera Reforzada (80%) <span>▼</span></div>
-                <div class="piece-content">
-                    <div class="section-title">Componentes:</div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">10 Tablón de madera Reforzada <span>▼</span></div>
-                        <div class="sub-content">
-                            • 10 x Resina (1 por Tablón) → 100 Savia de árbol (10 por Resina)<br>
-                            • 90 x Troncos de nogal (9 por Tablón)<br>
-                            • 20 Carbón (2 por Tablón) → 100 Tronco nogal + 200 Mineral de carbón (5 y 10 por Carbón)<br>
-                            • 10 Encantamiento (1 por Tablón) → 50 Huesos + 250 Esencias (5 y 25 por encantamiento)
-                        </div>
-                    </div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento <span>▼</span></div>
-                        <div class="sub-content">
-                            • 25 x Huesos de enemigo (5 por encantamiento)<br>
-                            • 125 x Esencias de enemigo (25 por encantamiento)
-                        </div>
-                    </div>
-                    <div class="section-title">Total Materia Prima:</div>
-                    <ul class="mat-list">
-                        <li>200 x Mineral de Carbón</li>
-                        <li>190 x Troncos de Nogal</li>
-                        <li>375 x Esencias de enemigo</li>
-                        <li>75 x Huesos de enemigo</li>
-                        <li>100 x Savia de árbol</li>
-                        <li>57.750 WMC de Crafting</li>
-                        <li>10.000 de WMC para 2 Ámbar</li>
-                    </ul>
-                    <button class="btn-add" onclick="addToCart('Mejora de Madera Endurecida Fina a Madera Reforzada (80%)', { 'Mineral de Carbón': 200, 'Troncos de Nogal': 190, 'Esencias de enemigo': 375, 'Huesos de enemigo': 75, 'Savia de árbol': 100, 'WMC': 67750 })">+ Añadir a la Lista</button>
-                </div>
-            </div>
+            <div class="sub-title">Elegí una herramienta</div>
         </div>
 
-        <div id="mejoras-mago" class="char-card card-mago">
-            <h2 class="char-title title-mago">Mejoras de Tela</h2>
-            <div class="piece-container">
-                <div class="piece-header" onclick="toggle(this)">Mejora de Tela a Tela Fina (95%) <span>▼</span></div>
-                <div class="piece-content">
-                    <div class="section-title">Componentes:</div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">10 Tela fina algodón <span>▼</span></div>
-                        <div class="sub-content">
-                            • 100 x Liber de Lino (10 por Tela)<br>
-                            • 100 x Cápsulas de algodón (10 por Tela)
+        <div class="home-container">
+            
+            <!-- SECCIÓN 1: ÍTEMS Y DROPS -->
+            <div class="category-section">
+                <div class="category-header">
+                    <span>Ítems y Drops</span>
+                    <span class="count">10</span>
+                    <div class="line"></div>
+                </div>
+                <div class="nav-grid">
+                    
+                    <!-- Warmaster -->
+                    <div class="nav-card border-warmaster" onclick="changeScreen('warmaster-menu-screen')">
+                        <div class="nav-icon-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                        </div>
+                        <div class="nav-text">
+                            <h3>Warmaster</h3>
+                            <p>Joyería e ítems del árbol de warmaster</p>
                         </div>
                     </div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
-                        <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
+
+                    <!-- Equipo Champion -->
+                    <div class="nav-card border-champions" onclick="changeScreen('champions-menu-screen')">
+                        <div class="nav-icon-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+                        </div>
+                        <div class="nav-text">
+                            <h3>Champions</h3>
+                            <p>Armaduras, armas y pociones de rango champion</p>
+                        </div>
                     </div>
-                    <div class="section-title">Total Materia Prima:</div>
-                    <ul class="mat-list">
-                        <li>100 x Liber de Lino</li>
-                        <li>100 x Cápsulas de algodón</li>
-                        <li>50 x Esencias de enemigo</li>
-                        <li>155.000 x Oro</li>
-                        <li>5.000 WMC para 1 Ámbar</li>
-                    </ul>
-                    <button class="btn-add" onclick="addToCart('Mejora de Tela a Tela Fina (95%)', { 'Liber de Lino': 100, 'Cápsulas de algodón': 100, 'Esencias de enemigo': 50, 'Oro': 155000, 'WMC': 5000 })">+ Añadir a la Lista</button>
+
+                    <!-- Épicos -->
+                    <div class="nav-card border-epicos" onclick="changeScreen('epicos-menu-screen')">
+                        <div class="nav-icon-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                        </div>
+                        <div class="nav-text">
+                            <h3>Épicos</h3>
+                            <p>Drops de anillos y armas épicas, con su costo de crafteo</p>
+                        </div>
+                    </div>
+
+                    <!-- Sets de mercenario -->
+                    <div class="nav-card border-mercenario" onclick="changeScreen('construccion-screen')">
+                        <div class="nav-icon-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                        </div>
+                        <div class="nav-text">
+                            <h3>Mercenario</h3>
+                            <p>Piezas de cada set y dónde conseguirlas</p>
+                        </div>
+                    </div>
+
+                    <!-- Cosas de Mgs -->
+                    <div class="nav-card border-mgs" onclick="changeScreen('construccion-screen')">
+                        <div class="nav-icon-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 2v6h13V2z"></path><path d="M2.5 16v6h13v-6z"></path><path d="M11.5 8v8"></path><circle cx="21" cy="12" r="1.5"></circle></svg>
+                        </div>
+                        <div class="nav-text">
+                            <h3>Cosas de Mgs</h3>
+                            <p>Equipamiento y bonificaciones de Mgs</p>
+                        </div>
+                    </div>
+
+                    <!-- Ítems de caja -->
+                    <div class="nav-card border-caja" onclick="changeScreen('construccion-screen')">
+                        <div class="nav-icon-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                        </div>
+                        <div class="nav-text">
+                            <h3>Ítems de caja</h3>
+                            <p>Drops épicos y legendarios que salen del cofre</p>
+                        </div>
+                    </div>
+
+                    <!-- Carbón etéreo -->
+                    <div class="nav-card border-carbon" onclick="changeScreen('construccion-screen')">
+                        <div class="nav-icon-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c0 0-5 4-5 10a5 5 0 0 0 10 0c0-6-5-10-5-10Z"></path><path d="M12 16a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"></path></svg>
+                        </div>
+                        <div class="nav-text">
+                            <h3>Carbón etéreo</h3>
+                            <p>Armas y joyería forjadas con carbón etéreo</p>
+                        </div>
+                    </div>
+
+                    <!-- Ítems de dragón -->
+                    <div class="nav-card border-dragon" onclick="changeScreen('construccion-screen')">
+                        <div class="nav-icon-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12A10 10 0 1 1 12 2a10 10 0 0 1 10 10z"></path><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+                        </div>
+                        <div class="nav-text">
+                            <h3>Ítems de dragón</h3>
+                            <p>Armaduras y armas del set de dragón</p>
+                        </div>
+                    </div>
+
+                    <!-- Legendarios -->
+                    <div class="nav-card border-legendarios" onclick="changeScreen('construccion-screen')">
+                        <div class="nav-icon-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
+                        </div>
+                        <div class="nav-text">
+                            <h3>Legendarios</h3>
+                            <p>Lista y stats de los ítems Legendarios</p>
+                        </div>
+                    </div>
+
+                    <!-- Anillos de merca -->
+                    <div class="nav-card border-merca" onclick="changeScreen('anis-merca-screen')">
+                        <div class="nav-icon-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle></svg>
+                        </div>
+                        <div class="nav-text">
+                            <h3>Anillos Merca</h3>
+                            <p>Trelle, Alga y Meni: stats y dónde dropean</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="piece-container">
-                <div class="piece-header" onclick="toggle(this)">Mejora de Tela Fina a Tejido Etéreo (90%) <span>▼</span></div>
-                <div class="piece-content">
-                    <div class="section-title">Componentes:</div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">10 Tela de tejido etéreo <span>▼</span></div>
-                        <div class="sub-content">
-                            • 100 x Cápsulas de algodón (10 por Tela)<br>
-                            • 20 Jabón de Savia de árbol (2 por Tela) → 300 x Savia de árbol (15 por Jabón)<br>
-                            • 10 Encantamiento menor (1 por Tela) → 100 x Esencias de enemigo (10 por encantamiento menor)
+            <!-- SECCIÓN 2: GUÍAS E INFO -->
+            <div class="category-section">
+                <div class="category-header">
+                    <span>Guías e Info</span>
+                    <span class="count">3</span>
+                    <div class="line"></div>
+                </div>
+                <div class="nav-grid">
+
+                    <!-- Crafting Básico -->
+                    <div class="nav-card border-crafting" onclick="changeScreen('crafting-menu-screen')">
+                        <div class="nav-icon-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16.01" y2="14"></line><line x1="12" y1="14" x2="12.01" y2="14"></line><line x1="8" y1="14" x2="8.01" y2="14"></line><line x1="16" y1="18" x2="16.01" y2="18"></line><line x1="12" y1="18" x2="12.01" y2="18"></line><line x1="8" y1="18" x2="8.01" y2="18"></line></svg>
+                        </div>
+                        <div class="nav-text">
+                            <h3>Crafting Básico</h3>
+                            <p>Calculadora de materiales y mapas de recolección.</p>
                         </div>
                     </div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
-                        <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
+                    
+                    <!-- Audr -->
+                    <div class="nav-card border-audr" onclick="changeScreen('construccion-screen')">
+                        <div class="nav-icon-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        </div>
+                        <div class="nav-text">
+                            <h3>Audr</h3>
+                            <p>Ubicaciones posibles y cómo rastrearlo</p>
+                        </div>
                     </div>
-                    <div class="section-title">Total Materia Prima:</div>
-                    <ul class="mat-list">
-                        <li>100 x Cápsulas de algodón</li>
-                        <li>300 x Savia de árbol</li>
-                        <li>150 x Esencias de enemigo</li>
-                        <li>225.000 x Oro</li>
-                        <li>5.000 WMC de Crafting</li>
-                        <li>5.000 WMC para 1 Ámbar</li>
-                    </ul>
-                    <button class="btn-add" onclick="addToCart('Mejora de Tela Fina a Tejido Etéreo (90%)', { 'Cápsulas de algodón': 100, 'Savia de árbol': 300, 'Esencias de enemigo': 150, 'Oro': 225000, 'WMC': 10000 })">+ Añadir a la Lista</button>
+
+                    <!-- Sistema de tickets -->
+                    <div class="nav-card border-tickets" onclick="changeScreen('tickets-screen')">
+                        <div class="nav-icon-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10" rx="2" ry="2"></rect><line x1="8" y1="7" x2="8" y2="17"></line><line x1="16" y1="7" x2="16" y2="17"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
+                        </div>
+                        <div class="nav-text">
+                            <h3 style="color: #fff;">Tickets</h3>
+                            <p>Cómo reportar a NGD y qué esperar de cada respuesta</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="piece-container">
-                <div class="piece-header" onclick="toggle(this)">Mejora de Tejido Etéreo a Seda Real (80%) <span>▼</span></div>
-                <div class="piece-content">
-                    <div class="section-title">Componentes:</div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">10 Tela de seda real <span>▼</span></div>
-                        <div class="sub-content">
-                            • 100 x Capullo de seda (10 por Tela)<br>
-                            • 20 Jabón de Savia de árbol (2 por Tela) → 300 x Savia de árbol (15 por Jabón)<br>
-                            • 10 Encantamiento (1 por Tela) → 50 Huesos + 250 Esencias (5 y 25 por encantamiento)
-                        </div>
-                    </div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento <span>▼</span></div>
-                        <div class="sub-content">
-                            • 25 x Huesos de enemigo (5 por encantamiento)<br>
-                            • 125 x Esencias de enemigo (25 por encantamiento)
-                        </div>
-                    </div>
-                    <div class="section-title">Total Materia Prima:</div>
-                    <ul class="mat-list">
-                        <li>100 x Capullo de seda</li>
-                        <li>300 x Savia de árbol</li>
-                        <li>375 x Esencias de enemigo</li>
-                        <li>75 x Huesos de enemigo</li>
-                        <li>51.750 WMC de Crafting</li>
-                        <li>10.000 WMC para 2 Ámbar</li>
-                    </ul>
-                    <button class="btn-add" onclick="addToCart('Mejora de Tejido Etéreo a Seda Real (80%)', { 'Capullo de seda': 100, 'Savia de árbol': 300, 'Esencias de enemigo': 375, 'Huesos de enemigo': 75, 'WMC': 61750 })">+ Añadir a la Lista</button>
-                </div>
-            </div>
         </div>
-
-        <div id="mejoras-aleacion" class="char-card card-aleacion">
-            <h2 class="char-title title-aleacion">Mejoras de Aleación</h2>
-            <div class="piece-container">
-                <div class="piece-header" onclick="toggle(this)">Mejora de Hierro a Acero (95%) <span>▼</span></div>
-                <div class="piece-content">
-                    <div class="section-title">Componentes:</div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">10 Lingote de acero <span>▼</span></div>
-                        <div class="sub-content">
-                            • 100 x Mineral de Carbón (10 por Lingote)<br>
-                            • 100 x Mineral de Hierro (10 por Lingote)
-                        </div>
-                    </div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
-                        <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
-                    </div>
-                    <div class="section-title">Total Materia Prima:</div>
-                    <ul class="mat-list">
-                        <li>100 x Mineral de Carbón</li>
-                        <li>100 x Mineral de Hierro</li>
-                        <li>50 x Esencias de enemigo</li>
-                        <li>175.000 x Oro</li>
-                        <li>5.000 WMC de 1 Ámbar</li>
-                    </ul>
-                    <button class="btn-add" onclick="addToCart('Mejora de Hierro a Acero (95%)', { 'Mineral de Carbón': 100, 'Mineral de Hierro': 100, 'Esencias de enemigo': 50, 'Oro': 175000, 'WMC': 5000 })">+ Añadir a la Lista</button>
-                </div>
-            </div>
-
-            <div class="piece-container">
-                <div class="piece-header" onclick="toggle(this)">Mejora de Acero a Acero Fino (90%) <span>▼</span></div>
-                <div class="piece-content">
-                    <div class="section-title">Componentes:</div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">10 Lingote de Acero Fino <span>▼</span></div>
-                        <div class="sub-content">
-                            • 100 x Mineral de Hierro (10 por Lingote)<br>
-                            • 20 Carbón (2 por Lingote) → 100 x Tronco nogal + 200 Mineral de carbón<br>
-                            • 10 Encantamiento menor → 100 Esencias de enemigo (10 por encantamiento menor)
-                        </div>
-                    </div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
-                        <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
-                    </div>
-                    <div class="section-title">Total Materia Prima:</div>
-                    <ul class="mat-list">
-                        <li>200 x Mineral de Carbón</li>
-                        <li>100 x Mineral de Hierro</li>
-                        <li>100 x Troncos de Nogal</li>
-                        <li>150 x Esencias de enemigo</li>
-                        <li>225.000 x Oro</li>
-                        <li>5.000 WMC de Crafting</li>
-                        <li>5.000 WMC para 1 Ámbar</li>
-                    </ul>
-                    <button class="btn-add" onclick="addToCart('Mejora de Acero a Acero Fino (90%)', { 'Mineral de Carbón': 200, 'Mineral de Hierro': 100, 'Troncos de Nogal': 100, 'Esencias de enemigo': 150, 'Oro': 225000, 'WMC': 10000 })">+ Añadir a la Lista</button>
-                </div>
-            </div>
-
-            <div class="piece-container">
-                <div class="piece-header" onclick="toggle(this)">Mejora de Acero Fino a Aleación de Acero (80%) <span>▼</span></div>
-                <div class="piece-content">
-                    <div class="section-title">Componentes:</div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">10 Lingote de Aleación de Acero <span>▼</span></div>
-                        <div class="sub-content">
-                            • 10 x Lingote de titanio → 100 Mineral titanio (10 por Lingote)<br>
-                            • 90 x Mineral de Hierro (9 por Lingote)<br>
-                            • 20 Carbón (2 por Lingote)→ 100 Tronco nogal + 200 Mineral de carbón<br>
-                            • 10 Encantamiento → 50 Huesos + 250 Esencias
-                        </div>
-                    </div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento <span>▼</span></div>
-                        <div class="sub-content">
-                            • 25 x Huesos de enemigo (5 por encantamiento)<br>
-                            • 125 x Esencias de enemigo (25 por encantamiento)
-                        </div>
-                    </div>
-                    <div class="section-title">Total Materia Prima:</div>
-                    <ul class="mat-list">
-                        <li>200 x Mineral de Carbón</li>
-                        <li>100 x Troncos de Nogal</li>
-                        <li>90 x Mineral de Hierro</li>
-                        <li>100 x Mineral de Titanio</li>
-                        <li>375 x Esencias de enemigo</li>
-                        <li>75 x Huesos de enemigo</li>
-                        <li>57.750 WMC de Crafting</li>
-                        <li>10.000 de WMC para 2 Ámbar</li>
-                    </ul>
-                    <button class="btn-add" onclick="addToCart('Mejora de Acero Fino a Aleación de Acero (80%)', { 'Mineral de Carbón': 200, 'Troncos de Nogal': 100, 'Mineral de Hierro': 90, 'Mineral de Titanio': 100, 'Esencias de enemigo': 375, 'Huesos de enemigo': 75, 'WMC': 67750 })">+ Añadir a la Lista</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="mejoras-xymerald" class="char-card card-xymerald">
-            <h2 class="char-title title-xymerald">Xymerald</h2>
-            <div class="piece-container">
-                <div class="piece-header" onclick="toggle(this)">Mejora a Xymerald (50%) <span>▼</span></div>
-                <div class="piece-content">
-                    <div class="section-title">Componentes:</div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">10 Xymerald <span>▼</span></div>
-                        <div class="sub-content">
-                            • 100 x Mineral de Xymerald (10 por Xymerald)<br>
-                            • 20 x Encantamiento → 100 Huesos + 500 Esencias
-                        </div>
-                    </div>
-                    <div class="sub-accordion">
-                        <div class="sub-header" onclick="toggle(this)">5 Encantamiento <span>▼</span></div>
-                        <div class="sub-content">
-                            • 25 x Huesos de enemigo (5 por encantamiento)<br>
-                            • 125 x Esencias de enemigo (25 por encantamiento)
-                        </div>
-                    </div>
-                    <div class="section-title">Total Materia Prima:</div>
-                    <ul class="mat-list">
-                        <li>100 x Mineral de Xymerald</li>
-                        <li>125 x Huesos de enemigo</li>
-                        <li>625 x Esencias de enemigo</li>
-                        <li>56.250 x WMC</li>
-                        <li>20.000 x WMC para 1 Ámbar superior</li>
-                    </ul>
-                    <button class="btn-add" onclick="addToCart('Mejora a Xymerald (80%)', { 'Mineral de Xymerald': 100, 'Huesos de enemigo': 125, 'Esencias de enemigo': 625, 'WMC': 76250 })">+ Añadir a la Lista</button>
-                </div>
-            </div>
-        </div>
-
     </div>
 
-    <div class="sidebar">
-        <h2 class="char-title" style="color: #4caf50;">Lista de Materiales</h2>
-        <div id="cart-items">
-            <p style="color: #666; font-size: 0.9em;">No has añadido ninguna mejora.</p>
+
+    <!-- ================= PANTALLA GENÉRICA: EN CONSTRUCCIÓN ================= -->
+    <div id="construccion-screen" class="screen">
+        <div class="home-container">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú
+            </button>
+            <h1 class="main-title" style="color: #8b949e; font-size: 2em; margin-top: 40px;">Sección en Construcción</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Estamos recopilando los datos para esta categoría. ¡Vuelve pronto!</p>
         </div>
-        <div class="summary-list" id="cart-summary"></div>
     </div>
-</div>
+
+    <!-- ================= PANTALLA SUB-MENÚ CHAMPIONS ================= -->
+    <div id="champions-menu-screen" class="screen">
+        <div class="home-container">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú
+            </button>
+            
+            <h1 class="main-title" style="color: #ff9800; font-size: 2em; margin-top: 20px;">Categorías Champions</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Elige la subclase para ver su equipamiento:</p>
+            
+            <div class="nav-grid">
+                
+                <!-- 1. Bárbaro -->
+                <div class="nav-card border-champions" onclick="changeScreen('construccion-screen')">
+                    <div class="nav-icon-box">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="4"></line><line x1="4" y1="4" x2="20" y2="20"></line></svg>
+                    </div>
+                    <div class="nav-text">
+                        <h3>Bárbaro</h3>
+                        <p>Armaduras y armas de la subclase Bárbaro.</p>
+                    </div>
+                </div>
+
+                <!-- 2. Tirador -->
+                <div class="nav-card border-champions" onclick="changeScreen('construccion-screen')">
+                    <div class="nav-icon-box">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"></path><path d="M22 2 15 22 11 13 2 9 22 2z"></path></svg>
+                    </div>
+                    <div class="nav-text">
+                        <h3>Tirador</h3>
+                        <p>Armaduras y armas de la subclase Tirador.</p>
+                    </div>
+                </div>
+
+                <!-- 3. Brujo -->
+                <div class="nav-card border-champions" onclick="changeScreen('construccion-screen')">
+                    <div class="nav-icon-box">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </div>
+                    <div class="nav-text">
+                        <h3>Brujo</h3>
+                        <p>Armaduras y armas de la subclase Brujo.</p>
+                    </div>
+                </div>
+
+                <!-- 4. Caballero -->
+                <div class="nav-card border-champions" onclick="changeScreen('construccion-screen')">
+                    <div class="nav-icon-box">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <div class="nav-text">
+                        <h3>Caballero</h3>
+                        <p>Armaduras y armas de la subclase Caballero.</p>
+                    </div>
+                </div>
+
+                <!-- 5. Cazador -->
+                <div class="nav-card border-champions" onclick="changeScreen('construccion-screen')">
+                    <div class="nav-icon-box">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                    </div>
+                    <div class="nav-text">
+                        <h3>Cazador</h3>
+                        <p>Armaduras y armas de la subclase Cazador.</p>
+                    </div>
+                </div>
+
+                <!-- 6. Conjurador -->
+                <div class="nav-card border-champions" onclick="changeScreen('construccion-screen')">
+                    <div class="nav-icon-box">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1-1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
+                    </div>
+                    <div class="nav-text">
+                        <h3>Conjurador</h3>
+                        <p>Armaduras y armas de la subclase Conjurador.</p>
+                    </div>
+                </div>
+
+                <!-- 7. Pociones -->
+                <div class="nav-card border-pociones" onclick="changeScreen('construccion-screen')">
+                    <div class="nav-icon-box">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v7.5l-4.8 7.2a2 2 0 0 0 1.7 3.3h12.2a2 2 0 0 0 1.7-3.3L15 9.5V2"></path><path d="M8.5 2h7"></path><path d="M6 16h12"></path></svg>
+                    </div>
+                    <div class="nav-text">
+                        <h3>Pociones</h3>
+                        <p>Lista de pociones, efectos y recetas de creación.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA SUB-MENÚ ÉPICOS ================= -->
+    <div id="epicos-menu-screen" class="screen">
+        <div class="home-container">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú
+            </button>
+            
+            <h1 class="main-title" style="color: #9c27b0; font-size: 2em; margin-top: 20px;">Categorías Épicos</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Elige el boss para ver sus ítems épicos:</p>
+            
+            <div class="nav-grid" style="max-width: 900px; margin: auto;">
+                <!-- Evendim -->
+                <div class="nav-card border-epicos" onclick="changeScreen('construccion-screen')">
+                    <div class="nav-icon-box">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    </div>
+                    <div class="nav-text">
+                        <h3>Evendim</h3>
+                        <p>Armas e ítems épicos de Evendim.</p>
+                    </div>
+                </div>
+
+                <!-- Daen Rha -->
+                <div class="nav-card border-epicos" onclick="changeScreen('construccion-screen')">
+                    <div class="nav-icon-box">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    </div>
+                    <div class="nav-text">
+                        <h3>Daen Rha</h3>
+                        <p>Armas e ítems épicos de Daen Rha.</p>
+                    </div>
+                </div>
+
+                <!-- Thorkul -->
+                <div class="nav-card border-epicos" onclick="changeScreen('construccion-screen')">
+                    <div class="nav-icon-box">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    </div>
+                    <div class="nav-text">
+                        <h3>Thorkul</h3>
+                        <p>Armas e ítems épicos de Thorkul.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA ANILLOS MERCA ================= -->
+    <div id="anis-merca-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú Principal
+            </button>
+
+            <h1 class="main-title" style="color: #795548; font-size: 2.5em; margin-top: 20px;">Anillos y Amuletos Merca</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Stats y variantes de la joyería de mercader.</p>
+
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <!-- Imagen -->
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #795548; background: transparent; text-align: center;">
+                    <img src="AnisMerca.jpg" alt="Anillos y Amuletos Merca" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA DE TICKETS ================= -->
+    <div id="tickets-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú Principal
+            </button>
+
+            <h1 class="main-title" style="color: #ffffff; font-size: 2.5em; margin-top: 20px;">Sistema de Tickets</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Información sobre cómo obtener tickets y sus recompensas.</p>
+
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <!-- Imagen 1 -->
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ffffff; background: transparent; text-align: center;">
+                    <img src="Tickets1.jpg" alt="Información de Tickets" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+                
+                <!-- Imagen 2 -->
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ffffff; background: transparent; text-align: center;">
+                    <img src="Tickets2.jpg" alt="Niveles de Tickets" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA SUB-MENÚ CRAFTING BÁSICO ================= -->
+    <div id="crafting-menu-screen" class="screen">
+        <div class="home-container">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú
+            </button>
+            
+            <h1 class="main-title" style="color: #4caf50; font-size: 2em; margin-top: 20px;">Crafting Básico</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Elige la herramienta que necesites:</p>
+            
+            <div class="nav-grid" style="max-width: 600px; margin: auto;">
+                <!-- Tarjeta Calculadora -->
+                <div class="nav-card border-crafting" onclick="changeScreen('crafting-screen')">
+                    <div class="nav-icon-box">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16.01" y2="14"></line><line x1="12" y1="14" x2="12.01" y2="14"></line><line x1="8" y1="14" x2="8.01" y2="14"></line><line x1="16" y1="18" x2="16.01" y2="18"></line><line x1="12" y1="18" x2="12.01" y2="18"></line><line x1="8" y1="18" x2="8.01" y2="18"></line></svg>
+                    </div>
+                    <div class="nav-text">
+                        <h3>Calculadora de Crafting</h3>
+                        <p>Materiales y costos para mejoras maestras.</p>
+                    </div>
+                </div>
+
+                <!-- Tarjeta Mapa -->
+                <div class="nav-card border-mapa" onclick="changeScreen('mapa-crafting-screen')">
+                    <div class="nav-icon-box">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+                    </div>
+                    <div class="nav-text">
+                        <h3>Mapa de Crafting</h3>
+                        <p>Zonas de recolección de materiales en el mapa mundial.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA MAPA DE CRAFTING ================= -->
+    <div id="mapa-crafting-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('crafting-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Crafting Básico
+            </button>
+
+            <h1 class="main-title" style="color: #8bc34a; font-size: 2.5em; margin-top: 20px;">Mapa de Crafting</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Zonas de recolección de materiales.</p>
+
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #8bc34a; background: transparent; text-align: center;">
+                    <img src="MapaCrafting.jpg" alt="Mapa de Crafting" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA SUB-MENÚ WARMASTER ================= -->
+    <div id="warmaster-menu-screen" class="screen">
+        <div class="home-container">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú
+            </button>
+            
+            <h1 class="main-title" style="color: #e6edf3; font-size: 2em; margin-top: 20px;">Categorías Warmaster</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Elige el tipo de equipamiento:</p>
+            
+            <div class="nav-grid" style="max-width: 600px; margin: auto;">
+                <!-- Tarjeta Joyería -->
+                <div class="nav-card border-warmaster" onclick="changeScreen('warmaster-joyeria-screen')">
+                    <div class="nav-icon-box">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle></svg>
+                    </div>
+                    <div class="nav-text">
+                        <h3>Joyería</h3>
+                        <p>Anillos y amuletos divididos entre Syrtis, Alsius e Ignis.</p>
+                    </div>
+                </div>
+
+                <!-- Tarjeta Resto -->
+                <div class="nav-card border-disabled" onclick="changeScreen('warmaster-resto-screen')">
+                    <div class="nav-icon-box">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <div class="nav-text">
+                        <h3>Resto de Equipamiento</h3>
+                        <p>Armaduras, armas y demás ítems (En construcción).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA WARMASTER: JOYERÍA ================= -->
+    <div id="warmaster-joyeria-screen" class="screen">
+        <button class="btn-back" style="margin: 20px;" onclick="changeScreen('warmaster-menu-screen')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Volver a Categorías
+        </button>
+        
+        <div class="layout" style="max-width: 1200px;">
+            <div class="main-container" style="display: flex; gap: 30px; align-items: flex-start; width: 100%;">
+                
+                <!-- Columna Izquierda: Reinos -->
+                <div style="flex: 1;">
+                    <!-- Syrtis -->
+                    <div class="char-card card-syrtis" style="margin-bottom: 15px; padding: 15px;">
+                        <h2 class="char-title" style="color: #8bc34a; margin-bottom: 15px; border-bottom: none;">Syrtis</h2>
+                        <div id="wm-syrtis-content">
+                            <!-- Amuletos Syrtis -->
+                            <div class="piece-container">
+                                <div class="piece-header" onclick="toggle(this)" style="color: #8bc34a;">Amuletos <span>▼</span></div>
+                                <div class="piece-content" style="padding: 0;">
+                                    <ul class="wm-item-list">
+                                        <li>
+                                            <strong style="color: #fff;">Amuleto del Bosque Radiante:</strong><br>
+                                            • Mana +150<br>
+                                            • Velocidad de ataque +10%
+                                        </li>
+                                        <li>
+                                            <strong style="color: #fff;">Amuleto del Hechicero Nocturno:</strong><br>
+                                            • Daño de electricidad +40<br>
+                                            • Mana +150
+                                        </li>
+                                        <li>
+                                            <strong style="color: #fff;">Amuleto de la Tormenta:</strong><br>
+                                            • Daño de electricidad +40<br>
+                                            • Salud +200
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Anillos Syrtis -->
+                            <div class="piece-container">
+                                <div class="piece-header" onclick="toggle(this)" style="color: #8bc34a;">Anillos <span>▼</span></div>
+                                <div class="piece-content" style="padding: 0;">
+                                    <ul class="wm-item-list">
+                                        <li>
+                                            <strong style="color: #fff;">Anillo de la Mirada Suprema:</strong><br>
+                                            • Daño punzante +25<br>
+                                            • Chance de critico +30%
+                                        </li>
+                                        <li>
+                                            <strong style="color: #fff;">Anillo del Alma Elevada:</strong><br>
+                                            • Daño cortante +25<br>
+                                            • Velocidad de invocación +7%
+                                        </li>
+                                        <li>
+                                            <strong style="color: #fff;">Anillo de la Piel Arbórea:</strong><br>
+                                            • Salud +125<br>
+                                            • Daño melee recibido -7%
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alsius -->
+                    <div class="char-card card-alsius" style="margin-bottom: 15px; padding: 15px;">
+                        <h2 class="char-title" style="color: #4fc3f7; margin-bottom: 15px; border-bottom: none;">Alsius</h2>
+                        <div id="wm-alsius-content">
+                            <!-- Amuletos Alsius -->
+                            <div class="piece-container">
+                                <div class="piece-header" onclick="toggle(this)" style="color: #4fc3f7;">Amuletos <span>▼</span></div>
+                                <div class="piece-content" style="padding: 0;">
+                                    <ul class="wm-item-list">
+                                        <li>
+                                            <strong style="color: #fff;">Amuleto del Fulgor Níveo:</strong><br>
+                                            • Daño de hielo +40<br>
+                                            • Daño de rango recibido -10%
+                                        </li>
+                                        <li>
+                                            <strong style="color: #fff;">Amuleto de la Fusión Gélida:</strong><br>
+                                            • Salud +200<br>
+                                            • Daño de rango recibido -10%
+                                        </li>
+                                        <li>
+                                            <strong style="color: #fff;">Amuleto de la Piel Helada:</strong><br>
+                                            • Daño de hielo +40<br>
+                                            • Salud +200
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Anillos Alsius -->
+                            <div class="piece-container">
+                                <div class="piece-header" onclick="toggle(this)" style="color: #4fc3f7;">Anillos <span>▼</span></div>
+                                <div class="piece-content" style="padding: 0;">
+                                    <ul class="wm-item-list">
+                                        <li>
+                                            <strong style="color: #fff;">Anillo del Experto:</strong><br>
+                                            • Daño melee recibido -5%<br>
+                                            • Atributo de clase +7
+                                        </li>
+                                        <li>
+                                            <strong style="color: #fff;">Anillo del Vínculo Sanguíneo:</strong><br>
+                                            • Daño cortante +25<br>
+                                            • Bonus de curación +7%
+                                        </li>
+                                        <li>
+                                            <strong style="color: #fff;">Anillo de la Fortaleza:</strong><br>
+                                            • Daño aplastante +25<br>
+                                            • Fuerza +8
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ignis -->
+                    <div class="char-card card-ignis" style="margin-bottom: 15px; padding: 15px;">
+                        <h2 class="char-title" style="color: #f44336; margin-bottom: 15px; border-bottom: none;">Ignis</h2>
+                        <div id="wm-ignis-content">
+                            <!-- Amuletos Ignis -->
+                            <div class="piece-container">
+                                <div class="piece-header" onclick="toggle(this)" style="color: #f44336;">Amuletos <span>▼</span></div>
+                                <div class="piece-content" style="padding: 0;">
+                                    <ul class="wm-item-list">
+                                        <li>
+                                            <strong style="color: #fff;">Amuleto de la Sangre Hirviente:</strong><br>
+                                            • Daño de fuego +40<br>
+                                            • Salud +200
+                                        </li>
+                                        <li>
+                                            <strong style="color: #fff;">Amuleto de la Lumbre Rauda:</strong><br>
+                                            • Daño de fuego +40<br>
+                                            • Velocidad de invocación +10%
+                                        </li>
+                                        <li>
+                                            <strong style="color: #fff;">Amuleto de la Furia de Sultar:</strong><br>
+                                            • Daño melee recibido -10%<br>
+                                            • Duración de poder +15%
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Anillos Ignis -->
+                            <div class="piece-container">
+                                <div class="piece-header" onclick="toggle(this)" style="color: #f44336;">Anillos <span>▼</span></div>
+                                <div class="piece-content" style="padding: 0;">
+                                    <ul class="wm-item-list">
+                                        <li>
+                                            <strong style="color: #fff;">Anillo de la Mirada Destructiva:</strong><br>
+                                            • Daño aplastante +25<br>
+                                            • Chance de crítico +30%
+                                        </li>
+                                        <li>
+                                            <strong style="color: #fff;">Anillo del Vínculo Matriarca:</strong><br>
+                                            • Daño punzante +25<br>
+                                            • Bonus de curación +7%
+                                        </li>
+                                        <li>
+                                            <strong style="color: #fff;">Anillo de la Presteza Mágica:</strong><br>
+                                            • Velocidad de invocación +5%<br>
+                                            • Mana +100
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Imagen Warmaster -->
+                <div style="flex: 2;">
+                    <div class="char-card" style="padding: 10px; text-align: center; border-left: none; border-top: 5px solid #3b4352; background: transparent;">
+                        <img src="joyeria.png" alt="Regnum Warmasters" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #3b4352;">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA WARMASTER: RESTO ================= -->
+    <div id="warmaster-resto-screen" class="screen">
+        <button class="btn-back" style="margin: 20px;" onclick="changeScreen('warmaster-menu-screen')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Volver a Categorías
+        </button>
+        <div class="home-container">
+            <h1 class="main-title" style="color: #8b949e; font-size: 2em; margin-top: 40px;">Resto del Equipamiento</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Esta sección se completará más adelante.</p>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA DE GUÍA DE CRAFTING ================= -->
+    <div id="crafting-screen" class="screen">
+        <button class="btn-back" style="margin: 20px;" onclick="changeScreen('crafting-menu-screen')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Volver a Crafting Básico
+        </button>
+        
+        <div class="layout">
+            <div class="main-container">
+
+                <!-- ARCOS -->
+                <div id="mejoras-arcos" class="char-card card-arcos">
+                    <h2 class="char-title title-arcos">Mejoras de Arcos</h2>
+                    <div class="piece-container">
+                        <div class="piece-header" onclick="toggle(this)">Mejora de Madera Fina a Madera Endurecida (95%) <span>▼</span></div>
+                        <div class="piece-content">
+                            <div class="section-title">Componentes:</div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">10 Tablón de madera Endurecida <span>▼</span></div>
+                                <div class="sub-content">
+                                    • 100 x Mineral de Carbón (10 por Tablón)<br>
+                                    • 100 x Tronco de nogal (10 por Tablón)
+                                </div>
+                            </div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
+                                <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
+                            </div>
+                            <div class="section-title">Total Materia Prima:</div>
+                            <ul class="mat-list">
+                                <li>100 x Mineral de Carbón</li>
+                                <li>100 x Troncos de Nogal</li>
+                                <li>50 x Esencias de enemigo</li>
+                                <li>155.000 x Oro</li>
+                                <li>5.000 WMC para 1 Ámbar</li>
+                            </ul>
+                            <button class="btn-add" onclick="addToCart('Mejora de Madera Fina a Madera Endurecida (95%)', { 'Mineral de Carbón': 100, 'Troncos de Nogal': 100, 'Esencias de enemigo': 50, 'Oro': 155000, 'WMC': 5000 })">+ Añadir a la Lista</button>
+                        </div>
+                    </div>
+
+                    <div class="piece-container">
+                        <div class="piece-header" onclick="toggle(this)">Mejora de Madera Endurecida a Madera Endurecida Fina (90%) <span>▼</span></div>
+                        <div class="piece-content">
+                            <div class="section-title">Componentes:</div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">10 Tablón de madera Endurecida Fina <span>▼</span></div>
+                                <div class="sub-content">
+                                    • 100 x Tronco de nogal (10 por Tablón)<br>
+                                    • 20 Carbón (2 por Tablón) → 100 Tronco nogal + 200 Mineral de carbón (5 y 10 por Carbón)<br>
+                                    • 10 Encantamiento menor → 100 Esencias de enemigo (10 por encantamiento menor)
+                                </div>
+                            </div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
+                                <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
+                            </div>
+                            <div class="section-title">Total Materia Prima:</div>
+                            <ul class="mat-list">
+                                <li>200 x Mineral de Carbón</li>
+                                <li>200 x Troncos de Nogal</li>
+                                <li>150 x Esencias de enemigo</li>
+                                <li>225.000 x Oro</li>
+                                <li>5.000 WMC de Crafting</li>
+                                <li>5.000 WMC para 1 Ámbar</li>
+                            </ul>
+                            <button class="btn-add" onclick="addToCart('Mejora de Madera Endurecida a Madera Endurecida Fina (90%)', { 'Mineral de Carbón': 200, 'Troncos de Nogal': 200, 'Esencias de enemigo': 150, 'Oro': 225000, 'WMC': 10000 })">+ Añadir a la Lista</button>
+                        </div>
+                    </div>
+
+                    <div class="piece-container">
+                        <div class="piece-header" onclick="toggle(this)">Mejora de Madera Endurecida Fina a Madera Reforzada (80%) <span>▼</span></div>
+                        <div class="piece-content">
+                            <div class="section-title">Componentes:</div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">10 Tablón de madera Reforzada <span>▼</span></div>
+                                <div class="sub-content">
+                                    • 10 x Resina (1 por Tablón) → 100 Savia de árbol (10 por Resina)<br>
+                                    • 90 x Troncos de nogal (9 por Tablón)<br>
+                                    • 20 Carbón (2 por Tablón) → 100 Tronco nogal + 200 Mineral de carbón (5 y 10 por Carbón)<br>
+                                    • 10 Encantamiento (1 por Tablón) → 50 Huesos + 250 Esencias (5 y 25 por encantamiento)
+                                </div>
+                            </div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">5 Encantamiento <span>▼</span></div>
+                                <div class="sub-content">
+                                    • 25 x Huesos de enemigo (5 por encantamiento)<br>
+                                    • 125 x Esencias de enemigo (25 por encantamiento)
+                                </div>
+                            </div>
+                            <div class="section-title">Total Materia Prima:</div>
+                            <ul class="mat-list">
+                                <li>200 x Mineral de Carbón</li>
+                                <li>190 x Troncos de Nogal</li>
+                                <li>375 x Esencias de enemigo</li>
+                                <li>75 x Huesos de enemigo</li>
+                                <li>100 x Savia de árbol</li>
+                                <li>57.750 WMC de Crafting</li>
+                                <li>10.000 de WMC para 2 Ámbar</li>
+                            </ul>
+                            <button class="btn-add" onclick="addToCart('Mejora de Madera Endurecida Fina a Madera Reforzada (80%)', { 'Mineral de Carbón': 200, 'Troncos de Nogal': 190, 'Esencias de enemigo': 375, 'Huesos de enemigo': 75, 'Savia de árbol': 100, 'WMC': 67750 })">+ Añadir a la Lista</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TELA -->
+                <div id="mejoras-mago" class="char-card card-mago">
+                    <h2 class="char-title title-mago">Mejoras de Tela</h2>
+                    <div class="piece-container">
+                        <div class="piece-header" onclick="toggle(this)">Mejora de Tela a Tela Fina (95%) <span>▼</span></div>
+                        <div class="piece-content">
+                            <div class="section-title">Componentes:</div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">10 Tela fina algodón <span>▼</span></div>
+                                <div class="sub-content">
+                                    • 100 x Liber de Lino (10 por Tela)<br>
+                                    • 100 x Cápsulas de algodón (10 por Tela)
+                                </div>
+                            </div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
+                                <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
+                            </div>
+                            <div class="section-title">Total Materia Prima:</div>
+                            <ul class="mat-list">
+                                <li>100 x Liber de Lino</li>
+                                <li>100 x Cápsulas de algodón</li>
+                                <li>50 x Esencias de enemigo</li>
+                                <li>155.000 x Oro</li>
+                                <li>5.000 WMC para 1 Ámbar</li>
+                            </ul>
+                            <button class="btn-add" onclick="addToCart('Mejora de Tela a Tela Fina (95%)', { 'Liber de Lino': 100, 'Cápsulas de algodón': 100, 'Esencias de enemigo': 50, 'Oro': 155000, 'WMC': 5000 })">+ Añadir a la Lista</button>
+                        </div>
+                    </div>
+
+                    <div class="piece-container">
+                        <div class="piece-header" onclick="toggle(this)">Mejora de Tela Fina a Tejido Etéreo (90%) <span>▼</span></div>
+                        <div class="piece-content">
+                            <div class="section-title">Componentes:</div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">10 Tela de tejido etéreo <span>▼</span></div>
+                                <div class="sub-content">
+                                    • 100 x Cápsulas de algodón (10 por Tela)<br>
+                                    • 20 Jabón de Savia de árbol (2 por Tela) → 300 x Savia de árbol (15 por Jabón)<br>
+                                    • 10 Encantamiento menor (1 por Tela) → 100 x Esencias de enemigo (10 por encantamiento menor)
+                                </div>
+                            </div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
+                                <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
+                            </div>
+                            <div class="section-title">Total Materia Prima:</div>
+                            <ul class="mat-list">
+                                <li>100 x Cápsulas de algodón</li>
+                                <li>300 x Savia de árbol</li>
+                                <li>150 x Esencias de enemigo</li>
+                                <li>225.000 x Oro</li>
+                                <li>5.000 WMC de Crafting</li>
+                                <li>5.000 WMC para 1 Ámbar</li>
+                            </ul>
+                            <button class="btn-add" onclick="addToCart('Mejora de Tela Fina a Tejido Etéreo (90%)', { 'Cápsulas de algodón': 100, 'Savia de árbol': 300, 'Esencias de enemigo': 150, 'Oro': 225000, 'WMC': 10000 })">+ Añadir a la Lista</button>
+                        </div>
+                    </div>
+
+                    <div class="piece-container">
+                        <div class="piece-header" onclick="toggle(this)">Mejora de Tejido Etéreo a Seda Real (80%) <span>▼</span></div>
+                        <div class="piece-content">
+                            <div class="section-title">Componentes:</div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">10 Tela de seda real <span>▼</span></div>
+                                <div class="sub-content">
+                                    • 100 x Capullo de seda (10 por Tela)<br>
+                                    • 20 Jabón de Savia de árbol (2 por Tela) → 300 x Savia de árbol (15 por Jabón)<br>
+                                    • 10 Encantamiento (1 por Tela) → 50 Huesos + 250 Esencias (5 y 25 por encantamiento)
+                                </div>
+                            </div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">5 Encantamiento <span>▼</span></div>
+                                <div class="sub-content">
+                                    • 25 x Huesos de enemigo (5 por encantamiento)<br>
+                                    • 125 x Esencias de enemigo (25 por encantamiento)
+                                </div>
+                            </div>
+                            <div class="section-title">Total Materia Prima:</div>
+                            <ul class="mat-list">
+                                <li>100 x Capullo de seda</li>
+                                <li>300 x Savia de árbol</li>
+                                <li>375 x Esencias de enemigo</li>
+                                <li>75 x Huesos de enemigo</li>
+                                <li>51.750 WMC de Crafting</li>
+                                <li>10.000 WMC para 2 Ámbar</li>
+                            </ul>
+                            <button class="btn-add" onclick="addToCart('Mejora de Tejido Etéreo a Seda Real (80%)', { 'Capullo de seda': 100, 'Savia de árbol': 300, 'Esencias de enemigo': 375, 'Huesos de enemigo': 75, 'WMC': 61750 })">+ Añadir a la Lista</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALEACIÓN -->
+                <div id="mejoras-aleacion" class="char-card card-aleacion">
+                    <h2 class="char-title title-aleacion">Mejoras de Aleación</h2>
+                    <div class="piece-container">
+                        <div class="piece-header" onclick="toggle(this)">Mejora de Hierro a Acero (95%) <span>▼</span></div>
+                        <div class="piece-content">
+                            <div class="section-title">Componentes:</div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">10 Lingote de acero <span>▼</span></div>
+                                <div class="sub-content">
+                                    • 100 x Mineral de Carbón (10 por Lingote)<br>
+                                    • 100 x Mineral de Hierro (10 por Lingote)
+                                </div>
+                            </div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
+                                <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
+                            </div>
+                            <div class="section-title">Total Materia Prima:</div>
+                            <ul class="mat-list">
+                                <li>100 x Mineral de Carbón</li>
+                                <li>100 x Mineral de Hierro</li>
+                                <li>50 x Esencias de enemigo</li>
+                                <li>175.000 x Oro</li>
+                                <li>5.000 WMC de 1 Ámbar</li>
+                            </ul>
+                            <button class="btn-add" onclick="addToCart('Mejora de Hierro a Acero (95%)', { 'Mineral de Carbón': 100, 'Mineral de Hierro': 100, 'Esencias de enemigo': 50, 'Oro': 175000, 'WMC': 5000 })">+ Añadir a la Lista</button>
+                        </div>
+                    </div>
+
+                    <div class="piece-container">
+                        <div class="piece-header" onclick="toggle(this)">Mejora de Acero a Acero Fino (90%) <span>▼</span></div>
+                        <div class="piece-content">
+                            <div class="section-title">Componentes:</div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">10 Lingote de Acero Fino <span>▼</span></div>
+                                <div class="sub-content">
+                                    • 100 x Mineral de Hierro (10 por Lingote)<br>
+                                    • 20 Carbón (2 por Lingote) → 100 x Tronco nogal + 200 Mineral de carbón<br>
+                                    • 10 Encantamiento menor → 100 Esencias de enemigo (10 por encantamiento menor)
+                                </div>
+                            </div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">5 Encantamiento menor <span>▼</span></div>
+                                <div class="sub-content">• 50 x Esencias de enemigo (10 por encantamiento menor)</div>
+                            </div>
+                            <div class="section-title">Total Materia Prima:</div>
+                            <ul class="mat-list">
+                                <li>200 x Mineral de Carbón</li>
+                                <li>100 x Mineral de Hierro</li>
+                                <li>100 x Troncos de Nogal</li>
+                                <li>150 x Esencias de enemigo</li>
+                                <li>225.000 x Oro</li>
+                                <li>5.000 WMC de Crafting</li>
+                                <li>5.000 WMC para 1 Ámbar</li>
+                            </ul>
+                            <button class="btn-add" onclick="addToCart('Mejora de Acero a Acero Fino (90%)', { 'Mineral de Carbón': 200, 'Mineral de Hierro': 100, 'Troncos de Nogal': 100, 'Esencias de enemigo': 150, 'Oro': 225000, 'WMC': 10000 })">+ Añadir a la Lista</button>
+                        </div>
+                    </div>
+
+                    <div class="piece-container">
+                        <div class="piece-header" onclick="toggle(this)">Mejora de Acero Fino a Aleación de Acero (80%) <span>▼</span></div>
+                        <div class="piece-content">
+                            <div class="section-title">Componentes:</div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">10 Lingote de Aleación de Acero <span>▼</span></div>
+                                <div class="sub-content">
+                                    • 10 x Lingote de titanio → 100 Mineral titanio (10 por Lingote)<br>
+                                    • 90 x Mineral de Hierro (9 por Lingote)<br>
+                                    • 20 Carbón (2 por Lingote)→ 100 Tronco nogal + 200 Mineral de carbón<br>
+                                    • 10 Encantamiento → 50 Huesos + 250 Esencias
+                                </div>
+                            </div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">5 Encantamiento <span>▼</span></div>
+                                <div class="sub-content">
+                                    • 25 x Huesos de enemigo (5 por encantamiento)<br>
+                                    • 125 x Esencias de enemigo (25 por encantamiento)
+                                </div>
+                            </div>
+                            <div class="section-title">Total Materia Prima:</div>
+                            <ul class="mat-list">
+                                <li>200 x Mineral de Carbón</li>
+                                <li>100 x Troncos de Nogal</li>
+                                <li>90 x Mineral de Hierro</li>
+                                <li>100 x Mineral de Titanio</li>
+                                <li>375 x Esencias de enemigo</li>
+                                <li>75 x Huesos de enemigo</li>
+                                <li>57.750 WMC de Crafting</li>
+                                <li>10.000 de WMC para 2 Ámbar</li>
+                            </ul>
+                            <button class="btn-add" onclick="addToCart('Mejora de Acero Fino a Aleación de Acero (80%)', { 'Mineral de Carbón': 200, 'Troncos de Nogal': 100, 'Mineral de Hierro': 90, 'Mineral de Titanio': 100, 'Esencias de enemigo': 375, 'Huesos de enemigo': 75, 'WMC': 67750 })">+ Añadir a la Lista</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- XYMERALD -->
+                <div id="mejoras-xymerald" class="char-card card-xymerald">
+                    <h2 class="char-title title-xymerald">Xymerald</h2>
+                    <div class="piece-container">
+                        <div class="piece-header" onclick="toggle(this)">Mejora a Xymerald (50%) <span>▼</span></div>
+                        <div class="piece-content">
+                            <div class="section-title">Componentes:</div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">10 Xymerald <span>▼</span></div>
+                                <div class="sub-content">
+                                    • 100 x Mineral de Xymerald (10 por Xymerald)<br>
+                                    • 20 x Encantamiento → 100 Huesos + 500 Esencias
+                                </div>
+                            </div>
+                            <div class="sub-accordion">
+                                <div class="sub-header" onclick="toggle(this)">5 Encantamiento <span>▼</span></div>
+                                <div class="sub-content">
+                                    • 25 x Huesos de enemigo (5 por encantamiento)<br>
+                                    • 125 x Esencias de enemigo (25 por encantamiento)
+                                </div>
+                            </div>
+                            <div class="section-title">Total Materia Prima:</div>
+                            <ul class="mat-list">
+                                <li>100 x Mineral de Xymerald</li>
+                                <li>125 x Huesos de enemigo</li>
+                                <li>625 x Esencias de enemigo</li>
+                                <li>56.250 x WMC</li>
+                                <li>20.000 x WMC para 1 Ámbar superior</li>
+                            </ul>
+                            <button class="btn-add" onclick="addToCart('Mejora a Xymerald (80%)', { 'Mineral de Xymerald': 100, 'Huesos de enemigo': 125, 'Esencias de enemigo': 625, 'WMC': 76250 })">+ Añadir a la Lista</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Menú Lateral del Carrito de Crafting -->
+            <div class="sidebar">
+                <h2 class="char-title" style="color: #c9d1d9; border-bottom-color: #30363d;">Lista de Materiales</h2>
+                <div id="cart-items-crafting">
+                    <p style="color: #7a8393; font-size: 0.9em;">No has añadido ninguna mejora.</p>
+                </div>
+                <div class="summary-list" id="cart-summary-crafting"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- === MODAL PARA IMAGEN AMPLIADA === -->
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="expandedImg">
+    </div>
 
 <script>
     let cart = [];
 
-    function toggle(element) {
-        const content = element.nextElementSibling;
-        content.classList.toggle('active');
-        const span = element.querySelector('span');
-        if (span) span.innerText = content.classList.contains('active') ? '▲' : '▼';
+    // Función para cambiar de pantalla
+    function changeScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(screen => {
+            screen.classList.remove('active');
+        });
+        document.getElementById(screenId).classList.add('active');
+        window.scrollTo(0,0);
     }
 
+    // Función para desplegables (Acordeones)
+    function toggle(element) {
+        const content = element.nextElementSibling;
+        content.classList.toggle('active-acc');
+        const span = element.querySelector('span');
+        if (span) span.innerText = content.classList.contains('active-acc') ? '▲' : '▼';
+    }
+
+    // Funciones del Carrito (Compartidas)
     function addToCart(name, materials) {
         cart.push({ name, materials });
         updateCartUI();
@@ -391,21 +1179,23 @@
     }
 
     function updateCartUI() {
-        const cartDiv = document.getElementById('cart-items');
-        const summaryDiv = document.getElementById('cart-summary');
+        const cartDiv = document.getElementById('cart-items-crafting');
+        const summaryDiv = document.getElementById('cart-summary-crafting');
         
         if (cart.length === 0) {
-            cartDiv.innerHTML = '<p style="color: #666; font-size: 0.9em;">No has añadido ninguna mejora.</p>';
-            summaryDiv.innerHTML = '';
+            if(cartDiv) cartDiv.innerHTML = '<p style="color: #7a8393; font-size: 0.9em;">No has añadido ninguna mejora.</p>';
+            if(summaryDiv) summaryDiv.innerHTML = '';
             return;
         }
 
-        cartDiv.innerHTML = cart.map((item, index) => `
+        const itemsHTML = cart.map((item, index) => `
             <div class="cart-item">
                 <span>${item.name}</span>
                 <button class="btn-remove" onclick="removeFromCart(${index})">Eliminar</button>
             </div>
         `).join('');
+
+        if(cartDiv) cartDiv.innerHTML = itemsHTML;
 
         let totals = {};
         cart.forEach(item => {
@@ -417,24 +1207,27 @@
         let summaryHTML = '<div class="section-title">Materiales Totales Necesarios:</div>';
         for (let mat in totals) {
             let value = totals[mat];
-            let displayVal = (mat === 'Oro' || mat === 'WMC') ? value.toLocaleString() : value;
+            let displayVal = (mat === 'Oro' || mat === 'WMC' || mat === 'Monedas Warmaster') ? value.toLocaleString() : value;
             summaryHTML += `
                 <div class="summary-item">
                     <span>${mat}</span>
                     <span class="summary-val">${displayVal}</span>
                 </div>`;
         }
-        summaryDiv.innerHTML = summaryHTML;
+        
+        if(summaryDiv) summaryDiv.innerHTML = summaryHTML;
+    }
+
+    // Funciones para el Modal de Imagen
+    function openModal(src) {
+        document.getElementById('imageModal').style.display = "flex";
+        document.getElementById('expandedImg').src = src;
+    }
+
+    function closeModal() {
+        document.getElementById('imageModal').style.display = "none";
     }
 </script>
 
 </body>
-
 </html>
-
-
-
-
-
-
-
