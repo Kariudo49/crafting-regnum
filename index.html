@@ -5,10 +5,23 @@
     <title>Regnum - Chona</title>
     <!-- Importamos fuente para el título principal -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
         /* === ESTILOS GLOBALES === */
         body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #0b0f15; color: #e0e0e0; margin: 0; padding: 20px; }
+
+
+        .bz-clocks { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; flex-wrap: wrap;}
+        .bz-clock-box { background: #131820; border: 1px solid #d32f2f; border-radius: 8px; padding: 15px 30px; text-align: center; min-width: 150px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
+        .bz-clock-title { color: #d32f2f; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 8px; }
+        .bz-clock-time { color: #e6edf3; font-size: 2.2em; font-family: 'Inter', monospace; font-weight: 700; }
         
+        .bz-calendar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+        .bz-day-card { background: #1a1e24; border: 1px solid #30363d; border-radius: 6px; padding: 15px 10px; width: 110px; text-align: center; }
+        .bz-day-title { color: #00ff00; font-weight: 700; font-size: 1.1em; margin-bottom: 15px; letter-spacing: 1px;}
+        .bz-time-slot { color: #e0e0e0; font-size: 0.95em; margin-bottom: 8px; font-weight: 500; }
+
+
         /* === SISTEMA DE PANTALLAS (NAVEGACIÓN) === */
         .screen { display: none; }
         .screen.active { display: block; }
@@ -63,6 +76,8 @@
         .border-pociones { border-top-color: #e91e63; }
         .border-disabled { border-top-color: #555; cursor: default; opacity: 0.6; }
         .border-disabled:hover { transform: none; box-shadow: none; background: #1e1e1e; }
+        .border-momo { border-top-color: #fbc02d; }
+	.border-battlezone { border-top-color: #d32f2f; }
 
         /* Botón volver genérico */
         .btn-back { background: #131820; border: 1px solid #222935; color: #c9d1d9; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 500; margin-bottom: 20px; transition: 0.2s; font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 8px; }
@@ -128,9 +143,8 @@
 </head>
 <body>
 
-    <!-- ================= PANTALLA DE INICIO (NUEVO DISEÑO DASHBOARD) ================= -->
+    <!-- ================= PANTALLA 1: MENÚ PRINCIPAL ================= -->
     <div id="home-screen" class="screen active">
-        
         <div class="hero-section">
             <div class="over-title">Champions of Regnum</div>
             <h1 class="main-title">REGNUM <span class="dot">·</span> CHONA</h1>
@@ -143,128 +157,68 @@
         </div>
 
         <div class="home-container">
-            
             <!-- SECCIÓN 1: ÍTEMS Y DROPS -->
             <div class="category-section">
                 <div class="category-header">
                     <span>Ítems y Drops</span>
-                    <span class="count">10</span>
+                    <span class="count">12</span>
                     <div class="line"></div>
                 </div>
                 <div class="nav-grid">
-                    
-                    <!-- Warmaster -->
                     <div class="nav-card border-warmaster" onclick="changeScreen('warmaster-menu-screen')">
-                        <div class="nav-icon-box">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
-                        </div>
-                        <div class="nav-text">
-                            <h3>Warmaster</h3>
-                            <p>Joyería e ítems del árbol de warmaster</p>
-                        </div>
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg></div>
+                        <div class="nav-text"><h3>Warmaster</h3><p>Joyería, armas y armaduras de warmaster (también ítems extras)</p></div>
                     </div>
-
-                    <!-- Equipo Champion -->
                     <div class="nav-card border-champions" onclick="changeScreen('champions-menu-screen')">
-                        <div class="nav-icon-box">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
-                        </div>
-                        <div class="nav-text">
-                            <h3>Champions</h3>
-                            <p>Armaduras, armas y pociones de rango champion</p>
-                        </div>
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg></div>
+                        <div class="nav-text"><h3>Champions</h3><p>Armaduras, armas y pociones champion</p></div>
                     </div>
-
-                    <!-- Épicos -->
                     <div class="nav-card border-epicos" onclick="changeScreen('epicos-menu-screen')">
-                        <div class="nav-icon-box">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                        </div>
-                        <div class="nav-text">
-                            <h3>Épicos</h3>
-                            <p>Drops de anillos y armas épicas, con su costo de crafteo</p>
-                        </div>
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg></div>
+                        <div class="nav-text"><h3>Épicos</h3><p>Drops de épicos</p></div>
                     </div>
-
-                    <!-- Sets de mercenario -->
-                    <div class="nav-card border-mercenario" onclick="changeScreen('construccion-screen')">
-                        <div class="nav-icon-box">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
-                        </div>
-                        <div class="nav-text">
-                            <h3>Mercenario</h3>
-                            <p>Piezas de cada set y dónde conseguirlas</p>
-                        </div>
+                    <div class="nav-card border-mercenario" onclick="changeScreen('mercenario-screen')">
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg></div>
+                        <div class="nav-text"><h3>Mercenario</h3><p>Sets mercenarios</p></div>
                     </div>
-
-                    <!-- Cosas de Mgs -->
                     <div class="nav-card border-mgs" onclick="changeScreen('mgs-menu-screen')">
-                        <div class="nav-icon-box">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 2v6h13V2z"></path><path d="M2.5 16v6h13v-6z"></path><path d="M11.5 8v8"></path><circle cx="21" cy="12" r="1.5"></circle></svg>
-                        </div>
-                        <div class="nav-text">
-                            <h3>Cosas de Mgs</h3>
-                            <p>Equipamiento y bonificaciones de Mgs</p>
-                        </div>
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 2v6h13V2z"></path><path d="M2.5 16v6h13v-6z"></path><path d="M11.5 8v8"></path><circle cx="21" cy="12" r="1.5"></circle></svg></div>
+                        <div class="nav-text"><h3>Cosas de Mgs</h3><p>Arma y Armaduras de Mgs</p></div>
                     </div>
-
-                    <!-- Ítems de caja -->
                     <div class="nav-card border-caja" onclick="changeScreen('construccion-screen')">
-                        <div class="nav-icon-box">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                        </div>
-                        <div class="nav-text">
-                            <h3>Ítems de caja</h3>
-                            <p>Drops épicos y legendarios que salen del cofre</p>
-                        </div>
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>
+                        <div class="nav-text"><h3>Ítems de caja</h3><p>Simulador de cajas épicas y legendarias</p></div>
                     </div>
-
-                    <!-- Carbón etéreo -->
-                    <div class="nav-card border-carbon" onclick="changeScreen('construccion-screen')">
-                        <div class="nav-icon-box">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c0 0-5 4-5 10a5 5 0 0 0 10 0c0-6-5-10-5-10Z"></path><path d="M12 16a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"></path></svg>
-                        </div>
-                        <div class="nav-text">
-                            <h3>Carbón etéreo</h3>
-                            <p>Armas y joyería forjadas con carbón etéreo</p>
-                        </div>
+                    <div class="nav-card border-carbon" onclick="changeScreen('carbon-menu-screen')">
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c0 0-5 4-5 10a5 5 0 0 0 10 0c0-6-5-10-5-10Z"></path><path d="M12 16a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"></path></svg></div>
+                        <div class="nav-text"><h3>Carbón etéreo</h3><p>Armas y joyería con carbón etéreo</p></div>
                     </div>
-
-                    <!-- Ítems de dragón -->
                     <div class="nav-card border-dragon" onclick="changeScreen('construccion-screen')">
-                        <div class="nav-icon-box">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12A10 10 0 1 1 12 2a10 10 0 0 1 10 10z"></path><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
-                        </div>
-                        <div class="nav-text">
-                            <h3>Ítems de dragón</h3>
-                            <p>Armaduras y armas del set de dragón</p>
-                        </div>
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12A10 10 0 1 1 12 2a10 10 0 0 1 10 10z"></path><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg></div>
+                        <div class="nav-text"><h3>Ítems de dragón</h3><p>Armaduras y armas del set de dragón</p></div>
                     </div>
-
-                    <!-- Legendarios -->
                     <div class="nav-card border-legendarios" onclick="changeScreen('construccion-screen')">
-                        <div class="nav-icon-box">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
-                        </div>
-                        <div class="nav-text">
-                            <h3>Legendarios</h3>
-                            <p>Lista y stats de los ítems Legendarios</p>
-                        </div>
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg></div>
+                        <div class="nav-text"><h3>Legendarios</h3><p>Items de Legendarios</p></div>
                     </div>
-
-                    <!-- Anillos de merca -->
                     <div class="nav-card border-merca" onclick="changeScreen('anis-merca-screen')">
-                        <div class="nav-icon-box">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle></svg>
-                        </div>
-                        <div class="nav-text">
-                            <h3>Anillos Merca</h3>
-                            <p>Trelle, Alga y Meni: stats y dónde dropean</p>
-                        </div>
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle></svg></div>
+                        <div class="nav-text"><h3>Anillos Merca</h3><p>Anis Merca de Trelle, Alga y Meni</p></div>
                     </div>
 
+                    <!-- Tarjeta de Momo -->
+                    <div class="nav-card border-momo" onclick="changeScreen('momo-screen')">
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg></div>
+                        <div class="nav-text"><h3>Momo</h3><p>Anillos de Rey Momo</p></div>
+                    </div>
+<!-- Tarjeta de Battlezone -->
+                    <div class="nav-card border-battlezone" onclick="changeScreen('battlezone-menu-screen')">
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg></div>
+                        <div class="nav-text"><h3>Battlezone</h3><p>Horarios y confis recomendadas de Battlezone.</p></div>
+                    </div>
                 </div>
             </div>
+
 
             <!-- SECCIÓN 2: GUÍAS E INFO -->
             <div class="category-section">
@@ -274,48 +228,24 @@
                     <div class="line"></div>
                 </div>
                 <div class="nav-grid">
-
-                    <!-- Crafting Básico -->
                     <div class="nav-card border-crafting" onclick="changeScreen('crafting-menu-screen')">
-                        <div class="nav-icon-box">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16.01" y2="14"></line><line x1="12" y1="14" x2="12.01" y2="14"></line><line x1="8" y1="14" x2="8.01" y2="14"></line><line x1="16" y1="18" x2="16.01" y2="18"></line><line x1="12" y1="18" x2="12.01" y2="18"></line><line x1="8" y1="18" x2="8.01" y2="18"></line></svg>
-                        </div>
-                        <div class="nav-text">
-                            <h3>Crafting Básico</h3>
-                            <p>Calculadora de materiales y mapas de recolección.</p>
-                        </div>
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16.01" y2="14"></line><line x1="12" y1="14" x2="12.01" y2="14"></line><line x1="8" y1="14" x2="8.01" y2="14"></line><line x1="16" y1="18" x2="16.01" y2="18"></line><line x1="12" y1="18" x2="12.01" y2="18"></line><line x1="8" y1="18" x2="8.01" y2="18"></line></svg></div>
+                        <div class="nav-text"><h3>Crafting Básico</h3><p>Calculadora de materiales y mapa de crafting.</p></div>
                     </div>
-                    
-                    <!-- Audr -->
-                    <div class="nav-card border-audr" onclick="changeScreen('construccion-screen')">
-                        <div class="nav-icon-box">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                        </div>
-                        <div class="nav-text">
-                            <h3>Audr</h3>
-                            <p>Ubicaciones posibles y cómo rastrearlo</p>
-                        </div>
+                    <div class="nav-card border-audr" onclick="changeScreen('audr-screen')">
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+                        <div class="nav-text"><h3>Audr</h3><p>Ubicaciones posibles de Audr</p></div>
                     </div>
-
-                    <!-- Sistema de tickets -->
                     <div class="nav-card border-tickets" onclick="changeScreen('tickets-screen')">
-                        <div class="nav-icon-box">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10" rx="2" ry="2"></rect><line x1="8" y1="7" x2="8" y2="17"></line><line x1="16" y1="7" x2="16" y2="17"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
-                        </div>
-                        <div class="nav-text">
-                            <h3 style="color: #fff;">Tickets</h3>
-                            <p>Cómo reportar a NGD y qué esperar de cada respuesta</p>
-                        </div>
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10" rx="2" ry="2"></rect><line x1="8" y1="7" x2="8" y2="17"></line><line x1="16" y1="7" x2="16" y2="17"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg></div>
+                        <div class="nav-text"><h3 style="color: #fff;">Tickets</h3><p>Sistema para obtener tickets para Battlezones o Dragones</p></div>
                     </div>
-
                 </div>
             </div>
-
         </div>
     </div>
 
-
-    <!-- ================= PANTALLA GENÉRICA: EN CONSTRUCCIÓN ================= -->
+    <!-- ================= PANTALLA 2: EN CONSTRUCCIÓN ================= -->
     <div id="construccion-screen" class="screen">
         <div class="home-container">
             <button class="btn-back" onclick="changeScreen('home-screen')">
@@ -327,631 +257,36 @@
         </div>
     </div>
 
-    <!-- ================= PANTALLA SUB-MENÚ MGS ================= -->
-    <div id="mgs-menu-screen" class="screen">
-        <div class="home-container">
-            <button class="btn-back" onclick="changeScreen('home-screen')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Volver al Menú
-            </button>
-            
-            <h1 class="main-title" style="color: #8bc34a; font-size: 2em; margin-top: 20px;">Cosas de Mgs</h1>
-            <p class="home-subtitle" style="margin-top: 10px;">Elige la categoría:</p>
-            
-            <div class="nav-grid" style="max-width: 600px; margin: auto;">
-                <!-- Armas -->
-                <div class="nav-card border-mgs" onclick="changeScreen('mgs-armas-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"></polyline><line x1="13" y1="19" x2="19" y2="13"></line><line x1="16" y1="16" x2="20" y2="20"></line><line x1="19" y1="21" x2="21" y2="19"></line></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Armas</h3>
-                        <p>Armas de magnanita artesanales y arcanas.</p>
-                    </div>
-                </div>
-
-                <!-- Armaduras -->
-                <div class="nav-card border-mgs" onclick="changeScreen('mgs-armaduras-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Armaduras</h3>
-                        <p>Armaduras de Mgs divididas por subclases.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= PANTALLA ARMAS MGS ================= -->
-    <div id="mgs-armas-screen" class="screen">
-        <div class="home-container" style="max-width: 1200px;">
-            <button class="btn-back" onclick="changeScreen('mgs-menu-screen')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Volver a Cosas de Mgs
-            </button>
-
-            <h1 class="main-title" style="color: #8bc34a; font-size: 2.5em; margin-top: 20px;">Armas Mgs</h1>
-            <p class="home-subtitle" style="margin-top: 10px;">Stats de las armas de mgs.</p>
-
-            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
-                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #8bc34a; background: transparent; text-align: center;">
-                    <!-- IMPORTANTE: Subir ArmasMgs.jpg a tu GitHub -->
-                    <img src="ArmasMgs.jpg" alt="Armas Mgs" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= PANTALLA ARMADURAS MGS ================= -->
-    <div id="mgs-armaduras-screen" class="screen">
-        <div class="home-container">
-            <button class="btn-back" onclick="changeScreen('mgs-menu-screen')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Volver a Cosas de Mgs
-            </button>
-            
-            <h1 class="main-title" style="color: #8bc34a; font-size: 2em; margin-top: 20px;">Armaduras Mgs</h1>
-            <p class="home-subtitle" style="margin-top: 10px;">Elige la subclase para ver su armadura:</p>
-            
-            <div class="nav-grid">
-                
-                <!-- 1. Bárbaro -->
-                <div class="nav-card border-mgs" onclick="changeScreen('construccion-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="4"></line><line x1="4" y1="4" x2="20" y2="20"></line></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Bárbaro</h3>
-                        <p>Armaduras de la subclase Bárbaro.</p>
-                    </div>
-                </div>
-
-                <!-- 2. Tirador -->
-                <div class="nav-card border-mgs" onclick="changeScreen('construccion-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"></path><path d="M22 2 15 22 11 13 2 9 22 2z"></path></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Tirador</h3>
-                        <p>Armaduras de la subclase Tirador.</p>
-                    </div>
-                </div>
-
-                <!-- 3. Brujo -->
-                <div class="nav-card border-mgs" onclick="changeScreen('construccion-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Brujo</h3>
-                        <p>Armaduras de la subclase Brujo.</p>
-                    </div>
-                </div>
-
-                <!-- 4. Caballero -->
-                <div class="nav-card border-mgs" onclick="changeScreen('construccion-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Caballero</h3>
-                        <p>Armaduras de la subclase Caballero.</p>
-                    </div>
-                </div>
-
-                <!-- 5. Cazador -->
-                <div class="nav-card border-mgs" onclick="changeScreen('construccion-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Cazador</h3>
-                        <p>Armaduras de la subclase Cazador.</p>
-                    </div>
-                </div>
-
-                <!-- 6. Conjurador -->
-                <div class="nav-card border-mgs" onclick="changeScreen('construccion-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1-1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Conjurador</h3>
-                        <p>Armaduras de la subclase Conjurador.</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= PANTALLA SUB-MENÚ CHAMPIONS ================= -->
-    <div id="champions-menu-screen" class="screen">
-        <div class="home-container">
-            <button class="btn-back" onclick="changeScreen('home-screen')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Volver al Menú
-            </button>
-            
-            <h1 class="main-title" style="color: #ff9800; font-size: 2em; margin-top: 20px;">Categorías Champions</h1>
-            <p class="home-subtitle" style="margin-top: 10px;">Elige la subclase para ver su equipamiento:</p>
-            
-            <div class="nav-grid">
-                
-                <!-- 1. Bárbaro -->
-                <div class="nav-card border-champions" onclick="changeScreen('construccion-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="4"></line><line x1="4" y1="4" x2="20" y2="20"></line></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Bárbaro</h3>
-                        <p>Armaduras y armas de la subclase Bárbaro.</p>
-                    </div>
-                </div>
-
-                <!-- 2. Tirador -->
-                <div class="nav-card border-champions" onclick="changeScreen('construccion-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"></path><path d="M22 2 15 22 11 13 2 9 22 2z"></path></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Tirador</h3>
-                        <p>Armaduras y armas de la subclase Tirador.</p>
-                    </div>
-                </div>
-
-                <!-- 3. Brujo -->
-                <div class="nav-card border-champions" onclick="changeScreen('construccion-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Brujo</h3>
-                        <p>Armaduras y armas de la subclase Brujo.</p>
-                    </div>
-                </div>
-
-                <!-- 4. Caballero -->
-                <div class="nav-card border-champions" onclick="changeScreen('construccion-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Caballero</h3>
-                        <p>Armaduras y armas de la subclase Caballero.</p>
-                    </div>
-                </div>
-
-                <!-- 5. Cazador -->
-                <div class="nav-card border-champions" onclick="changeScreen('construccion-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Cazador</h3>
-                        <p>Armaduras y armas de la subclase Cazador.</p>
-                    </div>
-                </div>
-
-                <!-- 6. Conjurador -->
-                <div class="nav-card border-champions" onclick="changeScreen('construccion-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1-1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Conjurador</h3>
-                        <p>Armaduras y armas de la subclase Conjurador.</p>
-                    </div>
-                </div>
-
-                <!-- 7. Pociones -->
-                <div class="nav-card border-pociones" onclick="changeScreen('construccion-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v7.5l-4.8 7.2a2 2 0 0 0 1.7 3.3h12.2a2 2 0 0 0 1.7-3.3L15 9.5V2"></path><path d="M8.5 2h7"></path><path d="M6 16h12"></path></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Pociones</h3>
-                        <p>Lista de pociones, efectos y recetas de creación.</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= PANTALLA SUB-MENÚ ÉPICOS ================= -->
-    <div id="epicos-menu-screen" class="screen">
-        <div class="home-container">
-            <button class="btn-back" onclick="changeScreen('home-screen')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Volver al Menú
-            </button>
-            
-            <h1 class="main-title" style="color: #9c27b0; font-size: 2em; margin-top: 20px;">Categorías Épicos</h1>
-            <p class="home-subtitle" style="margin-top: 10px;">Elige el boss para ver sus ítems épicos:</p>
-            
-            <div class="nav-grid" style="max-width: 900px; margin: auto;">
-                <!-- Evendim -->
-                <div class="nav-card border-epicos" onclick="changeScreen('construccion-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Evendim</h3>
-                        <p>Armas e ítems épicos de Evendim.</p>
-                    </div>
-                </div>
-
-                <!-- Daen Rha -->
-                <div class="nav-card border-epicos" onclick="changeScreen('construccion-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Daen Rha</h3>
-                        <p>Armas e ítems épicos de Daen Rha.</p>
-                    </div>
-                </div>
-
-                <!-- Thorkul -->
-                <div class="nav-card border-epicos" onclick="changeScreen('construccion-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Thorkul</h3>
-                        <p>Armas e ítems épicos de Thorkul.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= PANTALLA ANILLOS MERCA ================= -->
-    <div id="anis-merca-screen" class="screen">
-        <div class="home-container" style="max-width: 1200px;">
-            <button class="btn-back" onclick="changeScreen('home-screen')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Volver al Menú Principal
-            </button>
-
-            <h1 class="main-title" style="color: #795548; font-size: 2.5em; margin-top: 20px;">Anillos y Amuletos Merca</h1>
-            <p class="home-subtitle" style="margin-top: 10px;">Stats y variantes de la joyería de mercader.</p>
-
-            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
-                <!-- Imagen -->
-                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #795548; background: transparent; text-align: center;">
-                    <img src="AnisMerca.jpg" alt="Anillos y Amuletos Merca" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= PANTALLA DE TICKETS ================= -->
-    <div id="tickets-screen" class="screen">
-        <div class="home-container" style="max-width: 1200px;">
-            <button class="btn-back" onclick="changeScreen('home-screen')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Volver al Menú Principal
-            </button>
-
-            <h1 class="main-title" style="color: #ffffff; font-size: 2.5em; margin-top: 20px;">Sistema de Tickets</h1>
-            <p class="home-subtitle" style="margin-top: 10px;">Información sobre cómo obtener tickets y sus recompensas.</p>
-
-            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
-                <!-- Imagen 1 -->
-                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ffffff; background: transparent; text-align: center;">
-                    <img src="Tickets1.jpg" alt="Información de Tickets" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
-                </div>
-                
-                <!-- Imagen 2 -->
-                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ffffff; background: transparent; text-align: center;">
-                    <img src="Tickets2.jpg" alt="Niveles de Tickets" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= PANTALLA SUB-MENÚ CRAFTING BÁSICO ================= -->
+    <!-- ================= PANTALLA 3: SUB-MENÚ CRAFTING BÁSICO ================= -->
     <div id="crafting-menu-screen" class="screen">
         <div class="home-container">
             <button class="btn-back" onclick="changeScreen('home-screen')">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                 Volver al Menú
             </button>
-            
             <h1 class="main-title" style="color: #4caf50; font-size: 2em; margin-top: 20px;">Crafting Básico</h1>
             <p class="home-subtitle" style="margin-top: 10px;">Elige la herramienta que necesites:</p>
-            
             <div class="nav-grid" style="max-width: 600px; margin: auto;">
-                <!-- Tarjeta Calculadora -->
                 <div class="nav-card border-crafting" onclick="changeScreen('crafting-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16.01" y2="14"></line><line x1="12" y1="14" x2="12.01" y2="14"></line><line x1="8" y1="14" x2="8.01" y2="14"></line><line x1="16" y1="18" x2="16.01" y2="18"></line><line x1="12" y1="18" x2="12.01" y2="18"></line><line x1="8" y1="18" x2="8.01" y2="18"></line></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Calculadora de Crafting</h3>
-                        <p>Materiales y costos para mejoras maestras.</p>
-                    </div>
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16.01" y2="14"></line><line x1="12" y1="14" x2="12.01" y2="14"></line><line x1="8" y1="14" x2="8.01" y2="14"></line><line x1="16" y1="18" x2="16.01" y2="18"></line><line x1="12" y1="18" x2="12.01" y2="18"></line><line x1="8" y1="18" x2="8.01" y2="18"></line></svg></div>
+                    <div class="nav-text"><h3>Calculadora de Crafting</h3><p>Materiales y costos para mejoras maestras.</p></div>
                 </div>
-
-                <!-- Tarjeta Mapa -->
                 <div class="nav-card border-mapa" onclick="changeScreen('mapa-crafting-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Mapa de Crafting</h3>
-                        <p>Zonas de recolección de materiales en el mapa mundial.</p>
-                    </div>
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg></div>
+                    <div class="nav-text"><h3>Mapa de Crafting</h3><p>Zonas de recolección de materiales en el mapa mundial.</p></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ================= PANTALLA MAPA DE CRAFTING ================= -->
-    <div id="mapa-crafting-screen" class="screen">
-        <div class="home-container" style="max-width: 1200px;">
-            <button class="btn-back" onclick="changeScreen('crafting-menu-screen')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Volver a Crafting Básico
-            </button>
-
-            <h1 class="main-title" style="color: #8bc34a; font-size: 2.5em; margin-top: 20px;">Mapa de Crafting</h1>
-            <p class="home-subtitle" style="margin-top: 10px;">Zonas de recolección de materiales.</p>
-
-            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
-                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #8bc34a; background: transparent; text-align: center;">
-                    <img src="MapaCrafting.jpg" alt="Mapa de Crafting" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= PANTALLA SUB-MENÚ WARMASTER ================= -->
-    <div id="warmaster-menu-screen" class="screen">
-        <div class="home-container">
-            <button class="btn-back" onclick="changeScreen('home-screen')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Volver al Menú
-            </button>
-            
-            <h1 class="main-title" style="color: #e6edf3; font-size: 2em; margin-top: 20px;">Categorías Warmaster</h1>
-            <p class="home-subtitle" style="margin-top: 10px;">Elige el tipo de equipamiento:</p>
-            
-            <div class="nav-grid" style="max-width: 600px; margin: auto;">
-                <!-- Tarjeta Joyería -->
-                <div class="nav-card border-warmaster" onclick="changeScreen('warmaster-joyeria-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Joyería</h3>
-                        <p>Anillos y amuletos divididos entre Syrtis, Alsius e Ignis.</p>
-                    </div>
-                </div>
-
-                <!-- Tarjeta Resto -->
-                <div class="nav-card border-disabled" onclick="changeScreen('warmaster-resto-screen')">
-                    <div class="nav-icon-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    </div>
-                    <div class="nav-text">
-                        <h3>Resto de Equipamiento</h3>
-                        <p>Armaduras, armas y demás ítems (En construcción).</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= PANTALLA WARMASTER: JOYERÍA ================= -->
-    <div id="warmaster-joyeria-screen" class="screen">
-        <button class="btn-back" style="margin: 20px;" onclick="changeScreen('warmaster-menu-screen')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            Volver a Categorías
-        </button>
-        
-        <div class="layout" style="max-width: 1200px;">
-            <div class="main-container" style="display: flex; gap: 30px; align-items: flex-start; width: 100%;">
-                
-                <!-- Columna Izquierda: Reinos -->
-                <div style="flex: 1;">
-                    <!-- Syrtis -->
-                    <div class="char-card card-syrtis" style="margin-bottom: 15px; padding: 15px;">
-                        <h2 class="char-title" style="color: #8bc34a; margin-bottom: 15px; border-bottom: none;">Syrtis</h2>
-                        <div id="wm-syrtis-content">
-                            <!-- Amuletos Syrtis -->
-                            <div class="piece-container">
-                                <div class="piece-header" onclick="toggle(this)" style="color: #8bc34a;">Amuletos <span>▼</span></div>
-                                <div class="piece-content" style="padding: 0;">
-                                    <ul class="wm-item-list">
-                                        <li>
-                                            <strong style="color: #fff;">Amuleto del Bosque Radiante:</strong><br>
-                                            • Mana +150<br>
-                                            • Velocidad de ataque +10%
-                                        </li>
-                                        <li>
-                                            <strong style="color: #fff;">Amuleto del Hechicero Nocturno:</strong><br>
-                                            • Daño de electricidad +40<br>
-                                            • Mana +150
-                                        </li>
-                                        <li>
-                                            <strong style="color: #fff;">Amuleto de la Tormenta:</strong><br>
-                                            • Daño de electricidad +40<br>
-                                            • Salud +200
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- Anillos Syrtis -->
-                            <div class="piece-container">
-                                <div class="piece-header" onclick="toggle(this)" style="color: #8bc34a;">Anillos <span>▼</span></div>
-                                <div class="piece-content" style="padding: 0;">
-                                    <ul class="wm-item-list">
-                                        <li>
-                                            <strong style="color: #fff;">Anillo de la Mirada Suprema:</strong><br>
-                                            • Daño punzante +25<br>
-                                            • Chance de critico +30%
-                                        </li>
-                                        <li>
-                                            <strong style="color: #fff;">Anillo del Alma Elevada:</strong><br>
-                                            • Daño cortante +25<br>
-                                            • Velocidad de invocación +7%
-                                        </li>
-                                        <li>
-                                            <strong style="color: #fff;">Anillo de la Piel Arbórea:</strong><br>
-                                            • Salud +125<br>
-                                            • Daño melee recibido -7%
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Alsius -->
-                    <div class="char-card card-alsius" style="margin-bottom: 15px; padding: 15px;">
-                        <h2 class="char-title" style="color: #4fc3f7; margin-bottom: 15px; border-bottom: none;">Alsius</h2>
-                        <div id="wm-alsius-content">
-                            <!-- Amuletos Alsius -->
-                            <div class="piece-container">
-                                <div class="piece-header" onclick="toggle(this)" style="color: #4fc3f7;">Amuletos <span>▼</span></div>
-                                <div class="piece-content" style="padding: 0;">
-                                    <ul class="wm-item-list">
-                                        <li>
-                                            <strong style="color: #fff;">Amuleto del Fulgor Níveo:</strong><br>
-                                            • Daño de hielo +40<br>
-                                            • Daño de rango recibido -10%
-                                        </li>
-                                        <li>
-                                            <strong style="color: #fff;">Amuleto de la Fusión Gélida:</strong><br>
-                                            • Salud +200<br>
-                                            • Daño de rango recibido -10%
-                                        </li>
-                                        <li>
-                                            <strong style="color: #fff;">Amuleto de la Piel Helada:</strong><br>
-                                            • Daño de hielo +40<br>
-                                            • Salud +200
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- Anillos Alsius -->
-                            <div class="piece-container">
-                                <div class="piece-header" onclick="toggle(this)" style="color: #4fc3f7;">Anillos <span>▼</span></div>
-                                <div class="piece-content" style="padding: 0;">
-                                    <ul class="wm-item-list">
-                                        <li>
-                                            <strong style="color: #fff;">Anillo del Experto:</strong><br>
-                                            • Daño melee recibido -5%<br>
-                                            • Atributo de clase +7
-                                        </li>
-                                        <li>
-                                            <strong style="color: #fff;">Anillo del Vínculo Sanguíneo:</strong><br>
-                                            • Daño cortante +25<br>
-                                            • Bonus de curación +7%
-                                        </li>
-                                        <li>
-                                            <strong style="color: #fff;">Anillo de la Fortaleza:</strong><br>
-                                            • Daño aplastante +25<br>
-                                            • Fuerza +8
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Ignis -->
-                    <div class="char-card card-ignis" style="margin-bottom: 15px; padding: 15px;">
-                        <h2 class="char-title" style="color: #f44336; margin-bottom: 15px; border-bottom: none;">Ignis</h2>
-                        <div id="wm-ignis-content">
-                            <!-- Amuletos Ignis -->
-                            <div class="piece-container">
-                                <div class="piece-header" onclick="toggle(this)" style="color: #f44336;">Amuletos <span>▼</span></div>
-                                <div class="piece-content" style="padding: 0;">
-                                    <ul class="wm-item-list">
-                                        <li>
-                                            <strong style="color: #fff;">Amuleto de la Sangre Hirviente:</strong><br>
-                                            • Daño de fuego +40<br>
-                                            • Salud +200
-                                        </li>
-                                        <li>
-                                            <strong style="color: #fff;">Amuleto de la Lumbre Rauda:</strong><br>
-                                            • Daño de fuego +40<br>
-                                            • Velocidad de invocación +10%
-                                        </li>
-                                        <li>
-                                            <strong style="color: #fff;">Amuleto de la Furia de Sultar:</strong><br>
-                                            • Daño melee recibido -10%<br>
-                                            • Duración de poder +15%
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- Anillos Ignis -->
-                            <div class="piece-container">
-                                <div class="piece-header" onclick="toggle(this)" style="color: #f44336;">Anillos <span>▼</span></div>
-                                <div class="piece-content" style="padding: 0;">
-                                    <ul class="wm-item-list">
-                                        <li>
-                                            <strong style="color: #fff;">Anillo de la Mirada Destructiva:</strong><br>
-                                            • Daño aplastante +25<br>
-                                            • Chance de crítico +30%
-                                        </li>
-                                        <li>
-                                            <strong style="color: #fff;">Anillo del Vínculo Matriarca:</strong><br>
-                                            • Daño punzante +25<br>
-                                            • Bonus de curación +7%
-                                        </li>
-                                        <li>
-                                            <strong style="color: #fff;">Anillo de la Presteza Mágica:</strong><br>
-                                            • Velocidad de invocación +5%<br>
-                                            • Mana +100
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Columna Derecha: Imagen Warmaster -->
-                <div style="flex: 2;">
-                    <div class="char-card" style="padding: 10px; text-align: center; border-left: none; border-top: 5px solid #3b4352; background: transparent;">
-                        <img src="joyeria.png" alt="Regnum Warmasters" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #3b4352;">
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= PANTALLA WARMASTER: RESTO ================= -->
-    <div id="warmaster-resto-screen" class="screen">
-        <button class="btn-back" style="margin: 20px;" onclick="changeScreen('warmaster-menu-screen')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            Volver a Categorías
-        </button>
-        <div class="home-container">
-            <h1 class="main-title" style="color: #8b949e; font-size: 2em; margin-top: 40px;">Resto del Equipamiento</h1>
-            <p class="home-subtitle" style="margin-top: 10px;">Esta sección se completará más adelante.</p>
-        </div>
-    </div>
-
-    <!-- ================= PANTALLA DE GUÍA DE CRAFTING ================= -->
+    <!-- ================= PANTALLA 4: CALCULADORA DE CRAFTING ================= -->
     <div id="crafting-screen" class="screen">
         <button class="btn-back" style="margin: 20px;" onclick="changeScreen('crafting-menu-screen')">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             Volver a Crafting Básico
         </button>
-        
         <div class="layout">
             <div class="main-container">
-
                 <!-- ARCOS -->
                 <div id="mejoras-arcos" class="char-card card-arcos">
                     <h2 class="char-title title-arcos">Mejoras de Arcos</h2>
@@ -1281,7 +616,1260 @@
         </div>
     </div>
 
-    <!-- === MODAL PARA IMAGEN AMPLIADA === -->
+    <!-- ================= PANTALLA 5: MAPA DE CRAFTING ================= -->
+    <div id="mapa-crafting-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('crafting-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Crafting Básico
+            </button>
+            <h1 class="main-title" style="color: #8bc34a; font-size: 2.5em; margin-top: 20px;">Mapa de Crafting</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Zonas de recolección de materiales.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #8bc34a; background: transparent; text-align: center;">
+                    <img src="MapaCrafting.jpg" alt="Mapa de Crafting" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 6: SUB-MENÚ WARMASTER ================= -->
+    <div id="warmaster-menu-screen" class="screen">
+        <div class="home-container">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú
+            </button>
+            <h1 class="main-title" style="color: #e6edf3; font-size: 2em; margin-top: 20px;">Categorías Warmaster</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Elige el tipo de equipamiento:</p>
+            <div class="nav-grid" style="max-width: 900px; margin: auto;">
+                
+                <!-- 1. Joyería -->
+                <div class="nav-card border-warmaster" onclick="changeScreen('warmaster-joyeria-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle></svg></div>
+                    <div class="nav-text"><h3>Joyería</h3><p>Anillos y amuletos warmaster.</p></div>
+                </div>
+
+                <!-- 2. Armas y Armaduras (NUEVO) -->
+                <div class="nav-card border-warmaster" onclick="changeScreen('wm-armas-armaduras-menu-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg></div>
+                    <div class="nav-text"><h3>Armas y Armaduras</h3><p>Armas y armaduras warmaster.</p></div>
+                </div>
+
+                <!-- 3. Resto -->
+                <div class="nav-card border-warmaster" onclick="changeScreen('warmaster-resto-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>
+                    <div class="nav-text"><h3>Resto</h3><p>Resto de items warmasters.</p></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 7: WARMASTER JOYERÍA ================= -->
+    <div id="warmaster-joyeria-screen" class="screen">
+        <button class="btn-back" style="margin: 20px;" onclick="changeScreen('warmaster-menu-screen')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Volver a Categorías
+        </button>
+        <div class="layout" style="max-width: 1200px;">
+            <div class="main-container" style="display: flex; gap: 30px; align-items: flex-start; width: 100%;">
+                <!-- Columna Izquierda: Reinos -->
+                <div style="flex: 1;">
+                    <!-- Syrtis -->
+                    <div class="char-card card-syrtis" style="margin-bottom: 15px; padding: 15px;">
+                        <h2 class="char-title" style="color: #8bc34a; margin-bottom: 15px; border-bottom: none;">Syrtis</h2>
+                        <div id="wm-syrtis-content">
+                            <!-- Amuletos Syrtis -->
+                            <div class="piece-container">
+                                <div class="piece-header" onclick="toggle(this)" style="color: #8bc34a;">Amuletos <span>▼</span></div>
+                                <div class="piece-content" style="padding: 0;">
+                                    <ul class="wm-item-list">
+                                        <li><strong style="color: #fff;">Amuleto del Bosque Radiante:</strong><br>• Mana +150<br>• Velocidad de ataque +10%</li>
+                                        <li><strong style="color: #fff;">Amuleto del Hechicero Nocturno:</strong><br>• Daño de electricidad +40<br>• Mana +150</li>
+                                        <li><strong style="color: #fff;">Amuleto de la Tormenta:</strong><br>• Daño de electricidad +40<br>• Salud +200</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Anillos Syrtis -->
+                            <div class="piece-container">
+                                <div class="piece-header" onclick="toggle(this)" style="color: #8bc34a;">Anillos <span>▼</span></div>
+                                <div class="piece-content" style="padding: 0;">
+                                    <ul class="wm-item-list">
+                                        <li><strong style="color: #fff;">Anillo de la Mirada Suprema:</strong><br>• Daño punzante +25<br>• Chance de critico +30%</li>
+                                        <li><strong style="color: #fff;">Anillo del Alma Elevada:</strong><br>• Daño cortante +25<br>• Velocidad de invocación +7%</li>
+                                        <li><strong style="color: #fff;">Anillo de la Piel Arbórea:</strong><br>• Salud +125<br>• Daño melee recibido -7%</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Alsius -->
+                    <div class="char-card card-alsius" style="margin-bottom: 15px; padding: 15px;">
+                        <h2 class="char-title" style="color: #4fc3f7; margin-bottom: 15px; border-bottom: none;">Alsius</h2>
+                        <div id="wm-alsius-content">
+                            <!-- Amuletos Alsius -->
+                            <div class="piece-container">
+                                <div class="piece-header" onclick="toggle(this)" style="color: #4fc3f7;">Amuletos <span>▼</span></div>
+                                <div class="piece-content" style="padding: 0;">
+                                    <ul class="wm-item-list">
+                                        <li><strong style="color: #fff;">Amuleto del Fulgor Níveo:</strong><br>• Daño de hielo +40<br>• Daño de rango recibido -10%</li>
+                                        <li><strong style="color: #fff;">Amuleto de la Fusión Gélida:</strong><br>• Salud +200<br>• Daño de rango recibido -10%</li>
+                                        <li><strong style="color: #fff;">Amuleto de la Piel Helada:</strong><br>• Daño de hielo +40<br>• Salud +200</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Anillos Alsius -->
+                            <div class="piece-container">
+                                <div class="piece-header" onclick="toggle(this)" style="color: #4fc3f7;">Anillos <span>▼</span></div>
+                                <div class="piece-content" style="padding: 0;">
+                                    <ul class="wm-item-list">
+                                        <li><strong style="color: #fff;">Anillo del Experto:</strong><br>• Daño melee recibido -5%<br>• Atributo de clase +7</li>
+                                        <li><strong style="color: #fff;">Anillo del Vínculo Sanguíneo:</strong><br>• Daño cortante +25<br>• Bonus de curación +7%</li>
+                                        <li><strong style="color: #fff;">Anillo de la Fortaleza:</strong><br>• Daño aplastante +25<br>• Fuerza +8</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Ignis -->
+                    <div class="char-card card-ignis" style="margin-bottom: 15px; padding: 15px;">
+                        <h2 class="char-title" style="color: #f44336; margin-bottom: 15px; border-bottom: none;">Ignis</h2>
+                        <div id="wm-ignis-content">
+                            <!-- Amuletos Ignis -->
+                            <div class="piece-container">
+                                <div class="piece-header" onclick="toggle(this)" style="color: #f44336;">Amuletos <span>▼</span></div>
+                                <div class="piece-content" style="padding: 0;">
+                                    <ul class="wm-item-list">
+                                        <li><strong style="color: #fff;">Amuleto de la Sangre Hirviente:</strong><br>• Daño de fuego +40<br>• Salud +200</li>
+                                        <li><strong style="color: #fff;">Amuleto de la Lumbre Rauda:</strong><br>• Daño de fuego +40<br>• Velocidad de invocación +10%</li>
+                                        <li><strong style="color: #fff;">Amuleto de la Furia de Sultar:</strong><br>• Daño melee recibido -10%<br>• Duración de poder +15%</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Anillos Ignis -->
+                            <div class="piece-container">
+                                <div class="piece-header" onclick="toggle(this)" style="color: #f44336;">Anillos <span>▼</span></div>
+                                <div class="piece-content" style="padding: 0;">
+                                    <ul class="wm-item-list">
+                                        <li><strong style="color: #fff;">Anillo de la Mirada Destructiva:</strong><br>• Daño aplastante +25<br>• Chance de crítico +30%</li>
+                                        <li><strong style="color: #fff;">Anillo del Vínculo Matriarca:</strong><br>• Daño punzante +25<br>• Bonus de curación +7%</li>
+                                        <li><strong style="color: #fff;">Anillo de la Presteza Mágica:</strong><br>• Velocidad de invocación +5%<br>• Mana +100</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Columna Derecha: Imagen Warmaster -->
+                <div style="flex: 2;">
+                    <div class="char-card" style="padding: 10px; text-align: center; border-left: none; border-top: 5px solid #3b4352; background: transparent;">
+                        <img src="joyeria.png" alt="Regnum Warmasters" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #3b4352;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ================= PANTALLA 8: WARMASTER RESTO ================= -->
+    <div id="warmaster-resto-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('warmaster-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Categorías Warmaster
+            </button>
+            <h1 class="main-title" style="color: #3365a3; font-size: 2.5em; margin-top: 20px;">Resto de Ítems Warmaster</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Resto de items:</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #3365a3; background: transparent; text-align: center;">
+                    <img src="Resto1.jpg" alt="Resto Warmaster 1" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #3365a3; background: transparent; text-align: center;">
+                    <img src="Resto2.jpg" alt="Resto Warmaster 2" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ================= PANTALLA 9: SUB-MENÚ CHAMPIONS ================= -->
+    <div id="champions-menu-screen" class="screen">
+        <div class="home-container">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú
+            </button>
+            <h1 class="main-title" style="color: #ff9800; font-size: 2em; margin-top: 20px;">Categorías Champions</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Elige la subclase para ver su equipamiento:</p>
+            <div class="nav-grid">
+                <!-- 1. Bárbaro -->
+                <div class="nav-card border-champions" onclick="changeScreen('champ-barbaro-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="4"></line><line x1="4" y1="4" x2="20" y2="20"></line></svg></div>
+                    <div class="nav-text"><h3>Bárbaro</h3><p>Armaduras y armas de la subclase Bárbaro.</p></div>
+                </div>
+                <!-- 2. Tirador -->
+                <div class="nav-card border-champions" onclick="changeScreen('champ-tirador-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"></path><path d="M22 2 15 22 11 13 2 9 22 2z"></path></svg></div>
+                    <div class="nav-text"><h3>Tirador</h3><p>Armaduras y armas de la subclase Tirador.</p></div>
+                </div>
+                <!-- 3. Brujo -->
+                <div class="nav-card border-champions" onclick="changeScreen('champ-brujo-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+                    <div class="nav-text"><h3>Brujo</h3><p>Armaduras y armas de la subclase Brujo.</p></div>
+                </div>
+                <!-- 4. Caballero -->
+                <div class="nav-card border-champions" onclick="changeScreen('champ-caballero-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+                    <div class="nav-text"><h3>Caballero</h3><p>Armaduras y armas de la subclase Caballero.</p></div>
+                </div>
+                <!-- 5. Cazador -->
+                <div class="nav-card border-champions" onclick="changeScreen('champ-cazador-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></div>
+                    <div class="nav-text"><h3>Cazador</h3><p>Armaduras y armas de la subclase Cazador.</p></div>
+                </div>
+                <!-- 6. Conjurador -->
+                <div class="nav-card border-champions" onclick="changeScreen('champ-conjurador-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1-1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg></div>
+                    <div class="nav-text"><h3>Conjurador</h3><p>Armaduras y armas de la subclase Conjurador.</p></div>
+                </div>
+                <!-- 7. Pociones -->
+                <div class="nav-card border-pociones" onclick="changeScreen('champ-pociones-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v7.5l-4.8 7.2a2 2 0 0 0 1.7 3.3h12.2a2 2 0 0 0 1.7-3.3L15 9.5V2"></path><path d="M8.5 2h7"></path><path d="M6 16h12"></path></svg></div>
+                    <div class="nav-text"><h3>Pociones</h3><p>Pociones de battlezones.</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ================= PANTALLA 10: SUB-MENÚ ÉPICOS ================= -->
+    <div id="epicos-menu-screen" class="screen">
+        <div class="home-container">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú
+            </button>
+            <h1 class="main-title" style="color: #9c27b0; font-size: 2em; margin-top: 20px;">Categorías Épicos</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Elige el boss para ver sus ítems épicos:</p>
+            <div class="nav-grid" style="max-width: 900px; margin: auto;">
+                <div class="nav-card border-epicos" onclick="changeScreen('epicos-evendim-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg></div>
+                    <div class="nav-text"><h3>Evendim</h3><p>Armas y joyería épica de Evendim.</p></div>
+                </div>
+                <div class="nav-card border-epicos" onclick="changeScreen('epicos-daen-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg></div>
+                    <div class="nav-text"><h3>Daen Rha</h3><p>Armas y joyería épica de Daen Rha.</p></div>
+                </div>
+                <div class="nav-card border-epicos" onclick="changeScreen('epicos-thorkul-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg></div>
+                    <div class="nav-text"><h3>Thorkul</h3><p>Armas y joyería épica de Thorkul.</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 11: TICKETS ================= -->
+    <div id="tickets-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú Principal
+            </button>
+            <h1 class="main-title" style="color: #ffffff; font-size: 2.5em; margin-top: 20px;">Sistema de Tickets</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Información sobre cómo obtener tickets y sus recompensas.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ffffff; background: transparent; text-align: center;">
+                    <img src="Tickets1.jpg" alt="Información de Tickets" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ffffff; background: transparent; text-align: center;">
+                    <img src="Tickets2.jpg" alt="Niveles de Tickets" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 12: SUB-MENÚ MGS ================= -->
+    <div id="mgs-menu-screen" class="screen">
+        <div class="home-container">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú
+            </button>
+            <h1 class="main-title" style="color: #8bc34a; font-size: 2em; margin-top: 20px;">Cosas de Mgs</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Elige la categoría:</p>
+            <div class="nav-grid" style="max-width: 600px; margin: auto;">
+                <div class="nav-card border-mgs" onclick="changeScreen('mgs-armas-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"></polyline><line x1="13" y1="19" x2="19" y2="13"></line><line x1="16" y1="16" x2="20" y2="20"></line><line x1="19" y1="21" x2="21" y2="19"></line></svg></div>
+                    <div class="nav-text"><h3>Armas</h3><p>Armas de magnanita.</p></div>
+                </div>
+                <div class="nav-card border-mgs" onclick="changeScreen('mgs-armaduras-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+                    <div class="nav-text"><h3>Armaduras</h3><p>Armaduras de Mgs divididas por subclases.</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 13: MGS ARMAS ================= -->
+    <div id="mgs-armas-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('mgs-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Cosas de Mgs
+            </button>
+            <h1 class="main-title" style="color: #8bc34a; font-size: 2.5em; margin-top: 20px;">Armas Mgs</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Stats de las armas de mgs.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #8bc34a; background: transparent; text-align: center;">
+                    <img src="ArmasMgs.jpg" alt="Armas Mgs" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 14: MGS ARMADURAS SUB-MENÚ ================= -->
+    <div id="mgs-armaduras-screen" class="screen">
+        <div class="home-container">
+            <button class="btn-back" onclick="changeScreen('mgs-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Cosas de Mgs
+            </button>
+            <h1 class="main-title" style="color: #8bc34a; font-size: 2em; margin-top: 20px;">Armaduras Mgs</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Elige la subclase para ver su armadura:</p>
+            <div class="nav-grid">
+                <!-- 1. Bárbaro -->
+                <div class="nav-card border-mgs" onclick="changeScreen('mgs-armadura-barbaro-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="4"></line><line x1="4" y1="4" x2="20" y2="20"></line></svg></div>
+                    <div class="nav-text"><h3>Bárbaro</h3><p>Armaduras de la subclase Bárbaro.</p></div>
+                </div>
+                <!-- 2. Tirador -->
+                <div class="nav-card border-mgs" onclick="changeScreen('mgs-armadura-tirador-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"></path><path d="M22 2 15 22 11 13 2 9 22 2z"></path></svg></div>
+                    <div class="nav-text"><h3>Tirador</h3><p>Armaduras de la subclase Tirador.</p></div>
+                </div>
+                <!-- 3. Brujo -->
+                <div class="nav-card border-mgs" onclick="changeScreen('mgs-armadura-brujo-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+                    <div class="nav-text"><h3>Brujo</h3><p>Armaduras de la subclase Brujo.</p></div>
+                </div>
+                <!-- 4. Caballero -->
+                <div class="nav-card border-mgs" onclick="changeScreen('mgs-armadura-caballero-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+                    <div class="nav-text"><h3>Caballero</h3><p>Armaduras de la subclase Caballero.</p></div>
+                </div>
+                <!-- 5. Cazador -->
+                <div class="nav-card border-mgs" onclick="changeScreen('mgs-armadura-cazador-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></div>
+                    <div class="nav-text"><h3>Cazador</h3><p>Armaduras de la subclase Cazador.</p></div>
+                </div>
+                <!-- 6. Conjurador -->
+                <div class="nav-card border-mgs" onclick="changeScreen('mgs-armadura-conjurador-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1-1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg></div>
+                    <div class="nav-text"><h3>Conjurador</h3><p>Armaduras de la subclase Conjurador.</p></div>
+                </div>
+                <!-- 7. Encantamientos -->
+                <div class="nav-card border-mgs" onclick="changeScreen('mgs-armadura-encantamientos-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+                    <div class="nav-text"><h3>Encantamientos</h3><p>Encantamientos para armaduras de Magnanita.</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 15: MGS ARMADURA BÁRBARO ================= -->
+    <div id="mgs-armadura-barbaro-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('mgs-armaduras-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Armaduras Mgs
+            </button>
+            <h1 class="main-title" style="color: #8bc34a; font-size: 2.5em; margin-top: 20px;">Armadura Mgs - Bárbaro</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Stats y requisitos del set de Magnanita para Bárbaro.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #8bc34a; background: transparent; text-align: center;">
+                    <img src="SetMgsBB.jpg" alt="Set Mgs Bárbaro" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 16: MGS ARMADURA TIRADOR ================= -->
+    <div id="mgs-armadura-tirador-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('mgs-armaduras-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Armaduras Mgs
+            </button>
+            <h1 class="main-title" style="color: #8bc34a; font-size: 2.5em; margin-top: 20px;">Armadura Mgs - Tirador</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Stats y requisitos del set de Magnanita para Tirador.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #8bc34a; background: transparent; text-align: center;">
+                    <img src="SetMgsTira.jpg" alt="Set Mgs Tirador" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 17: MGS ARMADURA BRUJO ================= -->
+    <div id="mgs-armadura-brujo-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('mgs-armaduras-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Armaduras Mgs
+            </button>
+            <h1 class="main-title" style="color: #8bc34a; font-size: 2.5em; margin-top: 20px;">Armadura Mgs - Brujo</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Stats y requisitos del set de Magnanita para Brujo.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #8bc34a; background: transparent; text-align: center;">
+                    <img src="SetMgsBrujo.jpg" alt="Set Mgs Brujo" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ================= PANTALLA 18: MGS ARMADURA CABALLERO ================= -->
+    <div id="mgs-armadura-caballero-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('mgs-armaduras-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Armaduras Mgs
+            </button>
+            <h1 class="main-title" style="color: #8bc34a; font-size: 2.5em; margin-top: 20px;">Armadura Mgs - Caballero</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Stats y requisitos del set de Magnanita para Caballero.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #8bc34a; background: transparent; text-align: center;">
+                    <img src="SetMgsCaba.jpg" alt="Set Mgs Caballero" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 19: MGS ARMADURA CAZADOR ================= -->
+    <div id="mgs-armadura-cazador-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('mgs-armaduras-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Armaduras Mgs
+            </button>
+            <h1 class="main-title" style="color: #8bc34a; font-size: 2.5em; margin-top: 20px;">Armadura Mgs - Cazador</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Stats y requisitos del set de Magnanita para Cazador.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #8bc34a; background: transparent; text-align: center;">
+                    <img src="SetMgsCaza.jpg" alt="Set Mgs Cazador" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 20: MGS ARMADURA CONJURADOR ================= -->
+    <div id="mgs-armadura-conjurador-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('mgs-armaduras-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Armaduras Mgs
+            </button>
+            <h1 class="main-title" style="color: #8bc34a; font-size: 2.5em; margin-top: 20px;">Armadura Mgs - Conjurador</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Stats y requisitos del set de Magnanita para Conjurador.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #8bc34a; background: transparent; text-align: center;">
+                    <img src="SetMgsConju.jpg" alt="Set Mgs Conjurador" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 21: MGS ARMADURA ENCANTAMIENTOS ================= -->
+    <div id="mgs-armadura-encantamientos-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('mgs-armaduras-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Armaduras Mgs
+            </button>
+            <h1 class="main-title" style="color: #8bc34a; font-size: 2.5em; margin-top: 20px;">Encantamientos Mgs</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Stats y recetas de los encantamientos para armaduras de Magnanita.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #8bc34a; background: transparent; text-align: center;">
+                    <img src="Encantamientos.jpg" alt="Encantamientos Mgs" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 22: ANILLOS MERCA ================= -->
+    <div id="anis-merca-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú Principal
+            </button>
+            <h1 class="main-title" style="color: #795548; font-size: 2.5em; margin-top: 20px;">Anillos y Amuletos Merca</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Joyería de mercader.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #795548; background: transparent; text-align: center;">
+                    <img src="AnisMerca.jpg" alt="Anillos y Amuletos Merca" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 23: MERCENARIO ================= -->
+    <div id="mercenario-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú Principal
+            </button>
+            <h1 class="main-title" style="color: #e65100; font-size: 2.5em; margin-top: 20px;">Set de Mercenario</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Sets y sus diferentes estadísticas.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #e65100; background: transparent; text-align: center;">
+                    <img src="Mercenario.jpg" alt="Equipamiento de Mercenario" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ================= PANTALLA 24: CHAMPIONS BÁRBARO ================= -->
+    <div id="champ-barbaro-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('champions-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Champions
+            </button>
+            <h1 class="main-title" style="color: #ff9800; font-size: 2.5em; margin-top: 20px;">Equipamiento Champion - Bárbaro</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ff9800; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Armas (Costo: 250.000 monedas champion)</h3>
+                    <img src="ChampBB.jpg" alt="Armas Bárbaro" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ff9800; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Set de Armadura</h3>
+                    <img src="SetChampBB.jpg" alt="Set Armadura Bárbaro" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 25: CHAMPIONS CABALLERO ================= -->
+    <div id="champ-caballero-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('champions-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Champions
+            </button>
+            <h1 class="main-title" style="color: #ff9800; font-size: 2.5em; margin-top: 20px;">Equipamiento Champion - Caballero</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ff9800; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Armas (Costo: 250.000 monedas champion)</h3>
+                    <img src="ChampCb.jpg" alt="Armas Caballero" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ff9800; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Set de Armadura</h3>
+                    <img src="SetChampCaba.jpg" alt="Set Armadura Caballero" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 26: CHAMPIONS BRUJO ================= -->
+    <div id="champ-brujo-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('champions-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Champions
+            </button>
+            <h1 class="main-title" style="color: #ff9800; font-size: 2.5em; margin-top: 20px;">Equipamiento Champion - Brujo</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ff9800; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Armas(Costo: 250.000 monedas champion)</h3>
+                    <img src="ChampBJ.jpg" alt="Armas Brujo" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ff9800; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Set de Armadura</h3>
+                    <img src="SetChampBrujo.jpg" alt="Set Armadura Brujo" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 27: CHAMPIONS CONJURADOR ================= -->
+    <div id="champ-conjurador-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('champions-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Champions
+            </button>
+            <h1 class="main-title" style="color: #ff9800; font-size: 2.5em; margin-top: 20px;">Equipamiento Champion - Conjurador</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ff9800; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Armas (Costo: 250.000 monedas champion)</h3>
+                    <img src="ChampConju.png" alt="Armas Conjurador" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ff9800; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Set de Armadura</h3>
+                    <img src="SetChampConju.jpg" alt="Set Armadura Conjurador" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 28: CHAMPIONS CAZADOR ================= -->
+    <div id="champ-cazador-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('champions-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Champions
+            </button>
+            <h1 class="main-title" style="color: #ff9800; font-size: 2.5em; margin-top: 20px;">Equipamiento Champion - Cazador</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ff9800; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Armas (Costo: 250.000 monedas champion)</h3>
+                    <img src="ChampCaza.jpg" alt="Armas Cazador" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ff9800; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Set de Armadura</h3>
+                    <img src="SetChampCaza.jpg" alt="Set Armadura Cazador" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 29: CHAMPIONS TIRADOR ================= -->
+    <div id="champ-tirador-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('champions-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Champions
+            </button>
+            <h1 class="main-title" style="color: #ff9800; font-size: 2.5em; margin-top: 20px;">Equipamiento Champion - Tirador</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ff9800; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Armas (Costo: 250.000 monedas champion)</h3>
+                    <img src="ChampTira.jpg" alt="Armas Tirador" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #ff9800; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Set de Armadura</h3>
+                    <img src="SetChampTira.jpg" alt="Set Armadura Tirador" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 30: POCIONES ================= -->
+    <div id="champ-pociones-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('champions-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Champions
+            </button>
+            <h1 class="main-title" style="color: #e91e63; font-size: 2.5em; margin-top: 20px;">Pociones Champion</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #e91e63; background: transparent; text-align: center;">
+                    <img src="Pociones.jpg" alt="Pociones" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ================= PANTALLA 31: SUB-MENÚ WARMASTER ARMAS Y ARMADURAS ================= -->
+    <div id="wm-armas-armaduras-menu-screen" class="screen">
+        <div class="home-container">
+            <button class="btn-back" onclick="changeScreen('warmaster-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Categorías Warmaster
+            </button>
+            <h1 class="main-title" style="color: #3365a3; font-size: 2em; margin-top: 20px;">Armas y Armaduras Warmaster</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Elige la subclase para ver su equipamiento:</p>
+            <div class="nav-grid">
+                
+                <!-- 1. Bárbaro -->
+                <div class="nav-card border-warmaster" onclick="changeScreen('wm-barbaro-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="4"></line><line x1="4" y1="4" x2="20" y2="20"></line></svg></div>
+                    <div class="nav-text"><h3>Bárbaro</h3><p>Armaduras y armas Warmaster de la subclase Bárbaro.</p></div>
+                </div>
+                
+                <!-- 2. Tirador -->
+                <div class="nav-card border-warmaster" onclick="changeScreen('wm-tirador-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"></path><path d="M22 2 15 22 11 13 2 9 22 2z"></path></svg></div>
+                    <div class="nav-text"><h3>Tirador</h3><p>Armaduras y armas Warmaster de la subclase Tirador.</p></div>
+                </div>
+                
+                <!-- 3. Brujo -->
+                <div class="nav-card border-warmaster" onclick="changeScreen('wm-brujo-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+                    <div class="nav-text"><h3>Brujo</h3><p>Armaduras y armas Warmaster de la subclase Brujo.</p></div>
+                </div>
+                
+                <!-- 4. Caballero -->
+                <div class="nav-card border-warmaster" onclick="changeScreen('wm-caballero-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+                    <div class="nav-text"><h3>Caballero</h3><p>Armaduras y armas Warmaster de la subclase Caballero.</p></div>
+                </div>
+                
+                <!-- 5. Cazador -->
+                <div class="nav-card border-warmaster" onclick="changeScreen('wm-cazador-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></div>
+                    <div class="nav-text"><h3>Cazador</h3><p>Armaduras y armas Warmaster de la subclase Cazador.</p></div>
+                </div>
+                
+                <!-- 6. Conjurador -->
+                <div class="nav-card border-warmaster" onclick="changeScreen('wm-conjurador-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1-1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg></div>
+                    <div class="nav-text"><h3>Conjurador</h3><p>Armaduras y armas Warmaster de la subclase Conjurador.</p></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 32: WARMASTER BÁRBARO ================= -->
+    <div id="wm-barbaro-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('wm-armas-armaduras-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Armas y Armaduras
+            </button>
+            <h1 class="main-title" style="color: #3365a3; font-size: 2.5em; margin-top: 20px;">Equipamiento Warmaster - Bárbaro</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #3365a3; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Armas y Set de Armadura</h3>
+                    <img src="WmBB.jpg" alt="Equipamiento Bárbaro" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 33: WARMASTER TIRADOR ================= -->
+    <div id="wm-tirador-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('wm-armas-armaduras-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Armas y Armaduras
+            </button>
+            <h1 class="main-title" style="color: #3365a3; font-size: 2.5em; margin-top: 20px;">Equipamiento Warmaster - Tirador</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #3365a3; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Armas y Set de Armadura</h3>
+                    <img src="WmTira.jpg" alt="Equipamiento Tirador" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 34: WARMASTER BRUJO ================= -->
+    <div id="wm-brujo-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('wm-armas-armaduras-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Armas y Armaduras
+            </button>
+            <h1 class="main-title" style="color: #3365a3; font-size: 2.5em; margin-top: 20px;">Equipamiento Warmaster - Brujo</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #3365a3; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Armas y Set de Armadura</h3>
+                    <img src="WmBJ.jpg" alt="Equipamiento Brujo" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 35: WARMASTER CABALLERO ================= -->
+    <div id="wm-caballero-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('wm-armas-armaduras-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Armas y Armaduras
+            </button>
+            <h1 class="main-title" style="color: #3365a3; font-size: 2.5em; margin-top: 20px;">Equipamiento Warmaster - Caballero</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #3365a3; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Armas y Set de Armadura</h3>
+                    <img src="WmCb.jpg" alt="Equipamiento Caballero" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 36: WARMASTER CAZADOR ================= -->
+    <div id="wm-cazador-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('wm-armas-armaduras-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Armas y Armaduras
+            </button>
+            <h1 class="main-title" style="color: #3365a3; font-size: 2.5em; margin-top: 20px;">Equipamiento Warmaster - Cazador</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #3365a3; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Armas y Set de Armadura</h3>
+                    <img src="WmCaza.jpg" alt="Equipamiento Cazador" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 37: WARMASTER CONJURADOR ================= -->
+    <div id="wm-conjurador-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('wm-armas-armaduras-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Armas y Armaduras
+            </button>
+            <h1 class="main-title" style="color: #3365a3; font-size: 2.5em; margin-top: 20px;">Equipamiento Warmaster - Conjurador</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #3365a3; background: transparent; text-align: center;">
+                    <h3 style="color: #c9d1d9; margin-top: 0; margin-bottom: 15px; text-align: left; border-bottom: 1px solid #30363d; padding-bottom: 10px;">Armas y Set de Armadura</h3>
+                    <img src="WmConju.jpg" alt="Equipamiento Conjurador" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ================= PANTALLA 38: SUB-MENÚ CARBÓN ETÉREO ================= -->
+    <div id="carbon-menu-screen" class="screen">
+        <div class="home-container">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú Principal
+            </button>
+            <h1 class="main-title" style="color: #a1a1aa; font-size: 2em; margin-top: 20px;">Carbón Etéreo</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Elige la categoría:</p>
+            <div class="nav-grid" style="max-width: 600px; margin: auto;">
+                
+                <!-- 1. Espectrales -->
+                <div class="nav-card border-carbon" onclick="changeScreen('carbon-espectrales-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path></svg></div>
+                    <div class="nav-text"><h3>Espectrales</h3><p>Armas espectrales.</p></div>
+                </div>
+
+                <!-- 2. Supremus -->
+                <div class="nav-card border-carbon" onclick="changeScreen('supremus-menu-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+                    <div class="nav-text"><h3>Supremus</h3><p>Armas y joyería supremus 2026.</p></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<!-- ================= PANTALLA 39: CARBÓN ETÉREO - ESPECTRALES ================= -->
+    <div id="carbon-espectrales-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('carbon-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Carbón Etéreo
+            </button>
+            <h1 class="main-title" style="color: #a1a1aa; font-size: 2.5em; margin-top: 20px;">Armas Espectrales</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Stats y recetas de las armas espectrales forjadas con Carbón Etéreo.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #212121; background: transparent; text-align: center;">
+                    <img src="Espectrales500.jpg" alt="Armas Espectrales" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #212121; background: transparent; text-align: center;">
+                    <img src="EspectralesDuales.jpg" alt="Armas Espectrales Duales" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ================= PANTALLA 40: SUB-MENÚ SUPREMUS ================= -->
+    <div id="supremus-menu-screen" class="screen">
+        <div class="home-container">
+            <button class="btn-back" onclick="changeScreen('carbon-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Carbón Etéreo
+            </button>
+            <h1 class="main-title" style="color: #a1a1aa; font-size: 2em; margin-top: 20px;">Equipamiento Supremus</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Elige la categoría:</p>
+
+            <!-- Sección Armas -->
+            <div class="category-section" style="margin-top: 30px;">
+                <div class="category-header">
+                    <span>Armas</span>
+                    <span class="count">3</span>
+                    <div class="line"></div>
+                </div>
+                <div class="nav-grid">
+                    <!-- Primaria -->
+                    <div class="nav-card border-carbon" onclick="changeScreen('supremus-primaria-screen')">
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="4"></line><line x1="4" y1="4" x2="20" y2="20"></line></svg></div>
+                        <div class="nav-text"><h3>Primaria</h3><p>Armas principales Supremus.</p></div>
+                    </div>
+                    <!-- Secundaria -->
+                    <div class="nav-card border-carbon" onclick="changeScreen('supremus-secundaria-screen')">
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="14 2 18 6 7 17 3 17 3 13 14 2"></polygon><line x1="3" y1="22" x2="21" y2="22"></line></svg></div>
+                        <div class="nav-text"><h3>Secundaria</h3><p>Armas secundarias Supremus.</p></div>
+                    </div>
+                    <!-- Armas de 500 -->
+                    <div class="nav-card border-carbon" onclick="changeScreen('supremus-500-screen')">
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+                        <div class="nav-text"><h3>Armas de 500</h3><p>Armas Supremus de 500 carbones.</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección Joyería -->
+            <div class="category-section" style="margin-top: 30px;">
+                <div class="category-header">
+                    <span>Joyería</span>
+                    <span class="count">2</span>
+                    <div class="line"></div>
+                </div>
+                <div class="nav-grid">
+                    <!-- Anillo -->
+                    <div class="nav-card border-carbon" onclick="changeScreen('supremus-anillo-screen')">
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3"></circle></svg></div>
+                        <div class="nav-text"><h3>Anillo</h3><p>Anillo Supremus.</p></div>
+                    </div>
+                    <!-- Amuleto -->
+                    <div class="nav-card border-carbon" onclick="changeScreen('supremus-amuleto-screen')">
+                        <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+                        <div class="nav-text"><h3>Amuleto</h3><p>Amuleto Supremus.</p></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 41: SUPREMUS - PRIMARIA ================= -->
+    <div id="supremus-primaria-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('supremus-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Supremus
+            </button>
+            <h1 class="main-title" style="color: #a1a1aa; font-size: 2.5em; margin-top: 20px;">Supremus - Primaria</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #212121; background: transparent; text-align: center;">
+                    <img src="PrimariaSupremus.jpg" alt="Armas Primarias Supremus" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 42: SUPREMUS - SECUNDARIA ================= -->
+    <div id="supremus-secundaria-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('supremus-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Supremus
+            </button>
+            <h1 class="main-title" style="color: #a1a1aa; font-size: 2.5em; margin-top: 20px;">Supremus - Secundaria</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #212121; background: transparent; text-align: center;">
+                    <img src="SecunSupremus.jpg" alt="Armas Secundarias Supremus" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 43: SUPREMUS - ARMAS DE 500 ================= -->
+    <div id="supremus-500-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('supremus-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Supremus
+            </button>
+            <h1 class="main-title" style="color: #a1a1aa; font-size: 2.5em; margin-top: 20px;">Supremus - Armas de 500</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #212121; background: transparent; text-align: center;">
+                    <img src="Supremus500.jpg" alt="Armas de 500 Supremus" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 44: SUPREMUS - ANILLO ================= -->
+    <div id="supremus-anillo-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('supremus-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Supremus
+            </button>
+            <h1 class="main-title" style="color: #a1a1aa; font-size: 2.5em; margin-top: 20px;">Supremus - Anillos</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #212121; background: transparent; text-align: center;">
+                    <img src="AniSupremus.jpg" alt="Anillo Supremus" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 45: SUPREMUS - AMULETO ================= -->
+    <div id="supremus-amuleto-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('supremus-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Supremus
+            </button>
+            <h1 class="main-title" style="color: #a1a1aa; font-size: 2.5em; margin-top: 20px;">Supremus - Amuletos</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #212121; background: transparent; text-align: center;">
+                    <img src="AmuSupremus.jpg" alt="Amuleto Supremus" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ================= PANTALLA 46: AUDR ================= -->
+    <div id="audr-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú Principal
+            </button>
+            <h1 class="main-title" style="color: #ffffff; font-size: 2.5em; margin-top: 20px;">Ubicaciones de Audr</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Posibles ubicaciones para rastrear a Audr en el mapa.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #000000; box-shadow: 0 0 5px rgba(255,255,255,0.1); background: transparent; text-align: center;">
+                    
+                    <!-- Aviso de actualización -->
+                    <p style="color: #8b949e; font-size: 0.9em; font-weight: 500; margin-top: 0; margin-bottom: 15px;">(Imagen sin actualizar desde el 4/7)</p>
+                    
+                    <img src="UbicacionesAudr.jpg" alt="Mapa de ubicaciones de Audr" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ================= PANTALLA 47: ÉPICOS - EVENDIM ================= -->
+    <div id="epicos-evendim-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('epicos-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Épicos
+            </button>
+            <h1 class="main-title" style="color: #9c27b0; font-size: 2.5em; margin-top: 20px;">Épicos - Evendim</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Armas, joyería y costos de crafteo de Evendim.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #9c27b0; background: transparent; text-align: center;">
+                    <img src="Evendim.jpg" alt="Drops de Evendim" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 48: ÉPICOS - DAEN RHA ================= -->
+    <div id="epicos-daen-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('epicos-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Épicos
+            </button>
+            <h1 class="main-title" style="color: #9c27b0; font-size: 2.5em; margin-top: 20px;">Épicos - Daen Rha</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Armas, joyería y costos de crafteo de Daen Rha.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #9c27b0; background: transparent; text-align: center;">
+                    <img src="Daen.jpg" alt="Drops de Daen Rha" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 49: ÉPICOS - THORKUL ================= -->
+    <div id="epicos-thorkul-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('epicos-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Épicos
+            </button>
+            <h1 class="main-title" style="color: #9c27b0; font-size: 2.5em; margin-top: 20px;">Épicos - Thorkul</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Armas, joyería y costos de crafteo de Thorkul.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #9c27b0; background: transparent; text-align: center;">
+                    <img src="Thorkul.jpg" alt="Drops de Thorkul" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLA 50: MOMO ================= -->
+    <div id="momo-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú Principal
+            </button>
+            <h1 class="main-title" style="color: #fbc02d; font-size: 2.5em; margin-top: 20px;">Rey Momo</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Stats y recetas de crafteo de los anillos de Rey Momo.</p>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <div class="char-card" style="width: 100%; padding: 15px; border-top: 5px solid #fbc02d; background: transparent; text-align: center;">
+                    <img src="Momo.jpg" alt="Anillos de Rey Momo" class="img-clickable" onclick="openModal(this.src)" style="max-width: 100%; border-radius: 8px; border: 1px solid #30363d;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ================= PANTALLA 51: SUB-MENÚ BATTLEZONE ================= -->
+    <div id="battlezone-menu-screen" class="screen">
+        <div class="home-container">
+            <button class="btn-back" onclick="changeScreen('home-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver al Menú Principal
+            </button>
+            <h1 class="main-title" style="color: #d32f2f; font-size: 2em; margin-top: 20px;">Battlezone</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Elige una categoría:</p>
+            <div class="nav-grid" style="max-width: 600px; margin: auto;">
+                <!-- 1. Horario -->
+                <div class="nav-card border-battlezone" onclick="changeScreen('bz-horario-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
+                    <div class="nav-text"><h3>Horario</h3><p>Horarios de apertura de Battlezone.</p></div>
+                </div>
+                <!-- 2. Configuraciones -->
+                <div class="nav-card border-battlezone" onclick="changeScreen('bz-config-menu-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"></path></svg></div>
+                    <div class="nav-text"><h3>Configuraciones</h3><p>Sets y builds por subclase.</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ================= PANTALLA 52: BATTLEZONE HORARIO ================= -->
+    <div id="bz-horario-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('battlezone-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Battlezone
+            </button>
+            <h1 class="main-title" style="color: #d32f2f; font-size: 2.5em; margin-top: 20px; text-align: center;">Horarios de Battlezone</h1>
+            <p class="home-subtitle" style="margin-top: 10px; text-align: center;">La tabla marca el horario de tu hora local.</p>
+            
+            <div style="margin-top: 40px;">
+                <!-- Relojes en vivo -->
+                <div class="bz-clocks">
+                    <div class="bz-clock-box">
+                        <div class="bz-clock-title">Hora del Servidor</div>
+                        <div class="bz-clock-time" id="clock-server">--:--h</div>
+                    </div>
+                    <div class="bz-clock-box">
+                        <div class="bz-clock-title">Tu Hora Local</div>
+                        <div class="bz-clock-time" id="clock-local">--:--h</div>
+                    </div>
+                </div>
+
+                <!-- Calendario dinámico -->
+                <div class="bz-calendar" id="bz-calendar-container">
+                    <!-- Javascript inyectará los días aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ================= PANTALLA 53: SUB-MENÚ BATTLEZONE CONFIGURACIONES ================= -->
+    <div id="bz-config-menu-screen" class="screen">
+        <div class="home-container">
+            <button class="btn-back" onclick="changeScreen('battlezone-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Battlezone
+            </button>
+            <h1 class="main-title" style="color: #d32f2f; font-size: 2em; margin-top: 20px;">Configuraciones</h1>
+            <p class="home-subtitle" style="margin-top: 10px;">Elige la subclase para ver su configuración en Battlezone:</p>
+            <div class="nav-grid">
+                <div class="nav-card border-battlezone" onclick="changeScreen('bz-config-barbaro-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="4"></line><line x1="4" y1="4" x2="20" y2="20"></line></svg></div>
+                    <div class="nav-text"><h3>Bárbaro</h3><p>Configuración Bárbaro en Battlezone.</p></div>
+                </div>
+                <div class="nav-card border-battlezone" onclick="changeScreen('bz-config-tirador-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"></path><path d="M22 2 15 22 11 13 2 9 22 2z"></path></svg></div>
+                    <div class="nav-text"><h3>Tirador</h3><p>Configuración Tirador en Battlezone.</p></div>
+                </div>
+                <div class="nav-card border-battlezone" onclick="changeScreen('bz-config-brujo-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+                    <div class="nav-text"><h3>Brujo</h3><p>Configuración Brujo en Battlezone.</p></div>
+                </div>
+                <div class="nav-card border-battlezone" onclick="changeScreen('bz-config-caballero-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+                    <div class="nav-text"><h3>Caballero</h3><p>Configuración Caballero en Battlezone.</p></div>
+                </div>
+                <div class="nav-card border-battlezone" onclick="changeScreen('bz-config-cazador-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></div>
+                    <div class="nav-text"><h3>Cazador</h3><p>Configuración Cazador en Battlezone.</p></div>
+                </div>
+                <div class="nav-card border-battlezone" onclick="changeScreen('bz-config-conjurador-screen')">
+                    <div class="nav-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1-1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg></div>
+                    <div class="nav-text"><h3>Conjurador</h3><p>Configuración Conjurador en Battlezone.</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PANTALLAS 54-59: CONFIGURACIONES SUBCLASES ================= -->
+    <div id="bz-config-barbaro-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('bz-config-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Configuraciones
+            </button>
+            <h1 class="main-title" style="color: #d32f2f; font-size: 2.5em; margin-top: 20px;">Configuración - Bárbaro</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <p style="color: #8b949e; font-size: 1.1em;">(En construcción)</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="bz-config-tirador-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('bz-config-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Configuraciones
+            </button>
+            <h1 class="main-title" style="color: #d32f2f; font-size: 2.5em; margin-top: 20px;">Configuración - Tirador</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <p style="color: #8b949e; font-size: 1.1em;">(En construcción)</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="bz-config-brujo-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('bz-config-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Configuraciones
+            </button>
+            <h1 class="main-title" style="color: #d32f2f; font-size: 2.5em; margin-top: 20px;">Configuración - Brujo</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <p style="color: #8b949e; font-size: 1.1em;">(En construcción)</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="bz-config-caballero-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('bz-config-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Configuraciones
+            </button>
+            <h1 class="main-title" style="color: #d32f2f; font-size: 2.5em; margin-top: 20px;">Configuración - Caballero</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <p style="color: #8b949e; font-size: 1.1em;">(En construcción)</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="bz-config-cazador-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('bz-config-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Configuraciones
+            </button>
+            <h1 class="main-title" style="color: #d32f2f; font-size: 2.5em; margin-top: 20px;">Configuración - Cazador</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <p style="color: #8b949e; font-size: 1.1em;">(En construcción)</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="bz-config-conjurador-screen" class="screen">
+        <div class="home-container" style="max-width: 1200px;">
+            <button class="btn-back" onclick="changeScreen('bz-config-menu-screen')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Volver a Configuraciones
+            </button>
+            <h1 class="main-title" style="color: #d32f2f; font-size: 2.5em; margin-top: 20px;">Configuración - Conjurador</h1>
+            <div style="display: flex; flex-direction: column; gap: 30px; align-items: center; margin-top: 40px;">
+                <p style="color: #8b949e; font-size: 1.1em;">(En construcción)</p>
+            </div>
+        </div>
+    </div>
+
+   <!-- === MODAL PARA IMAGEN AMPLIADA === -->
     <div id="imageModal" class="modal" onclick="closeModal()">
         <span class="close-modal">&times;</span>
         <img class="modal-content" id="expandedImg">
@@ -1358,6 +1946,8 @@
         if(summaryDiv) summaryDiv.innerHTML = summaryHTML;
     }
 
+
+
     // Funciones para el Modal de Imagen
     function openModal(src) {
         document.getElementById('imageModal').style.display = "flex";
@@ -1367,6 +1957,76 @@
     function closeModal() {
         document.getElementById('imageModal').style.display = "none";
     }
+// ================= LÓGICA DE RELOJES Y HORARIOS BZ =================
+    
+    // Horario oficial del Servidor (GMT / UTC 0)
+    const bzServerSchedule = [
+        { day: 0, periods: [[13,16], [18,21]] }, // Domingo (Sun)
+        { day: 1, periods: [[3,6], [13,16], [20,23]] },  // Lunes (Mon)
+        { day: 2, periods: [[13,16], [18,21]] },         // Martes (Tue)
+        { day: 3, periods: [[13,16], [20,23]] },         // Miércoles (Wed)
+        { day: 4, periods: [[3,6], [13,16], [18,21]] },  // Jueves (Thu)
+        { day: 5, periods: [[13,17], [20,23]] },         // Viernes (Fri)
+        { day: 6, periods: [[3,6], [13,16], [20,23]] }   // Sábado (Sat)
+    ];
+
+    const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+
+    function renderBZCalendar() {
+        let localSchedule = {0:[], 1:[], 2:[], 3:[], 4:[], 5:[], 6:[]};
+
+        bzServerSchedule.forEach(dayData => {
+            dayData.periods.forEach(period => {
+                // Usamos una semana de referencia en 1970 (donde el 4 de enero fue Domingo) para usar las matemáticas internas de JS
+                let startUTC = new Date(Date.UTC(1970, 0, 4 + dayData.day, period[0], 0));
+                let endUTC = new Date(Date.UTC(1970, 0, 4 + dayData.day, period[1], 0));
+
+                let localDay = startUTC.getDay(); // Día local convertido
+                let localStart = startUTC.getHours(); // Hora local inicio
+                let localEnd = endUTC.getHours();     // Hora local fin
+                
+                // Si termina exactamente a la medianoche (00:00), visualmente mostramos 24 para que se entienda el rango
+                if(localEnd === 0 && period[1] !== 0) localEnd = 24;
+
+                localSchedule[localDay].push(`${localStart}-${localEnd}h`);
+            });
+        });
+
+        // Dibujar el calendario en el HTML
+        const container = document.getElementById('bz-calendar-container');
+        if (container) {
+            let html = '';
+            for(let i=0; i<7; i++) {
+                let slots = localSchedule[i].map(time => `<div class="bz-time-slot">${time}</div>`).join('');
+                html += `
+                <div class="bz-day-card">
+                    <div class="bz-day-title">${dayNames[i]}</div>
+                    ${slots}
+                </div>`;
+            }
+            container.innerHTML = html;
+        }
+    }
+
+    // Función para actualizar la hora de los relojes cada segundo
+    function updateClocks() {
+        const now = new Date();
+        // Hora del servidor forzando la zona UTC
+        const serverTime = now.toLocaleTimeString('es-AR', { timeZone: 'UTC', hour12: false, hour: '2-digit', minute:'2-digit' });
+        // Hora local de la PC del usuario
+        const localTime = now.toLocaleTimeString('es-AR', { hour12: false, hour: '2-digit', minute:'2-digit' });
+
+        const serverEl = document.getElementById('clock-server');
+        const localEl = document.getElementById('clock-local');
+
+        if(serverEl) serverEl.innerText = serverTime + 'h';
+        if(localEl) localEl.innerText = localTime + 'h';
+    }
+
+    // Inicializar todo
+    renderBZCalendar();
+    setInterval(updateClocks, 1000);
+
 </script>
 
 </body>
