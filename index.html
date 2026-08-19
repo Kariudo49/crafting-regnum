@@ -21,11 +21,12 @@
         .bz-day-title { color: #00ff00; font-weight: 700; font-size: 1.1em; margin-bottom: 15px; letter-spacing: 1px;}
         .bz-time-slot { color: #e0e0e0; font-size: 0.95em; margin-bottom: 8px; font-weight: 500; }
 
-	.bz-countdown-container { text-align: center; margin: 20px auto 40px auto; max-width: 400px; background: #131820; border: 1px solid #ff9800; border-radius: 8px; padding: 20px; box-shadow: 0 4px 12px rgba(255,152,0,0.15); transition: 0.3s; }
-        .bz-countdown-title { color: #ff9800; font-size: 1.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; letter-spacing: 1px; }
+/* === BATTLEZONE COUNTDOWN (ROJO) === */
+        .bz-countdown-container { text-align: center; margin: 20px auto 40px auto; max-width: 400px; background: #131820; border: 1px solid #d32f2f; border-radius: 8px; padding: 20px; box-shadow: 0 4px 12px rgba(211,47,47,0.15); transition: 0.3s; }
+        .bz-countdown-title { color: #d32f2f; font-size: 1.1em; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; letter-spacing: 1px; }
         .bz-countdown-timer { color: #e6edf3; font-size: 2.8em; font-family: 'Inter', monospace; font-weight: 700; letter-spacing: 2px;}
         
-        /* Clase especial para cuando la BZ está abierta */
+        /* Clase especial para cuando la BZ está abierta (se mantiene en verde para avisar) */
         .bz-countdown-open { border-color: #4caf50; box-shadow: 0 4px 12px rgba(76,175,80,0.2); }
         .bz-countdown-open .bz-countdown-title { color: #4caf50; }
        
@@ -1734,25 +1735,13 @@
         <div class="home-container" style="max-width: 1200px;">
             <button class="btn-back" onclick="changeScreen('battlezone-menu-screen')">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Volver a Battlezone
+                Volver al BZ
             </button>
             <h1 class="main-title" style="color: #d32f2f; font-size: 2.5em; margin-top: 20px; text-align: center;">Horarios de Battlezone</h1>
             <p class="home-subtitle" style="margin-top: 10px; text-align: center;">La tabla se ajusta automáticamente a tu zona horaria local.</p>
             
-            <div style="margin-top: 40px;">
-                <!-- Relojes en vivo -->
-                <div class="bz-clocks">
-                    <div class="bz-clock-box">
-                        <div class="bz-clock-title">Hora del Servidor</div>
-                        <div class="bz-clock-time" id="clock-server">--:--h</div>
-                    </div>
-                    <div class="bz-clock-box">
-                        <div class="bz-clock-title">Tu Hora Local</div>
-                        <div class="bz-clock-time" id="clock-local">--:--h</div>
-                    </div>
-                </div>
-
-                <!-- Contador de próxima BZ -->
+            <div style="margin-top: 30px;">
+                <!-- Contador de próxima BZ (Único protagonista arriba) -->
                 <div class="bz-countdown-container" id="bz-countdown-box">
                     <div class="bz-countdown-title" id="bz-countdown-title">Calculando...</div>
                     <div class="bz-countdown-timer" id="bz-countdown-timer">--:--:--</div>
@@ -1971,9 +1960,8 @@
     function closeModal() {
         document.getElementById('imageModal').style.display = "none";
     }
-// ================= LÓGICA DE RELOJES Y HORARIOS BZ =================
+// ================= LÓGICA DE HORARIOS Y CONTADOR BZ =================
     
-    // Horario oficial del Servidor (GMT / UTC 0)
     const bzServerSchedule = [
         { day: 0, periods: [[13,16], [18,21]] }, // Domingo
         { day: 1, periods: [[3,6], [13,16], [20,23]] },  // Lunes
@@ -2019,23 +2007,10 @@
         }
     }
 
-    function updateClocksAndCountdown() {
+    function updateCountdown() {
         const now = new Date();
-        
-        // 1. Actualizar relojes
-        const serverTime = now.toLocaleTimeString('es-AR', { timeZone: 'UTC', hour12: false, hour: '2-digit', minute:'2-digit' });
-        const localTime = now.toLocaleTimeString('es-AR', { hour12: false, hour: '2-digit', minute:'2-digit' });
-
-        const serverEl = document.getElementById('clock-server');
-        const localEl = document.getElementById('clock-local');
-
-        if(serverEl) serverEl.innerText = serverTime + 'h';
-        if(localEl) localEl.innerText = localTime + 'h';
-
-        // 2. Lógica del Contador
         let upcomingBZs = [];
         
-        // Calculamos las fechas reales de todos los turnos en los próximos 7 días
         for (let offset = 0; offset < 8; offset++) {
             let targetDate = new Date(now);
             targetDate.setUTCDate(now.getUTCDate() + offset);
@@ -2055,7 +2030,6 @@
             }
         }
         
-        // Ordenamos del más próximo al más lejano
         upcomingBZs.sort((a, b) => a.start - b.start);
         
         let state = "WAITING";
@@ -2064,16 +2038,15 @@
         for (let bz of upcomingBZs) {
             if (now >= bz.start && now < bz.end) {
                 state = "OPEN";
-                targetTime = bz.end; // Cuenta regresiva para cerrar
+                targetTime = bz.end; 
                 break;
             } else if (now < bz.start) {
                 state = "WAITING";
-                targetTime = bz.start; // Cuenta regresiva para abrir
+                targetTime = bz.start; 
                 break;
             }
         }
         
-        // Renderizar el contador
         if (targetTime) {
             let diff = targetTime - now;
             let hours = Math.floor(diff / (1000 * 60 * 60));
@@ -2100,10 +2073,10 @@
         }
     }
 
-    // Inicializar todo
     renderBZCalendar();
-    updateClocksAndCountdown(); // Llamada inmediata para que no haya delay
-    setInterval(updateClocksAndCountdown, 1000); // Se actualiza cada 1 segundo
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
 </script>
 
 </body>
